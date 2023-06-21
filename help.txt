@@ -1,0 +1,1 @@
+https://balta.io/blog/flutter-bloc-implementacao-basica
