@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OutlineCustomBorder {
+class CustomOutlineBorder {
   static buildCustomBorder() {
     return const OutlineInputBorder(
       borderRadius: BorderRadius.all(

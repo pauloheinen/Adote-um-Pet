@@ -1,48 +1,42 @@
 import 'package:flutter/material.dart';
 
-class TextFieldCustomWidget extends StatefulWidget {
-  final String label;
-  final String? hint;
-  final TextEditingController controller;
-  final InputBorder enabledBorder;
-  final InputBorder focusedBorder;
-  final bool isLocked;
+import '../Border/OutlineInputBorder/outline.border.dart';
 
-  const TextFieldCustomWidget({
+class CustomTextField extends StatefulWidget {
+  final String label;
+  final TextEditingController controller;
+  bool readOnly;
+  bool visible = true;
+
+  CustomTextField({
     super.key,
     required this.label,
-    this.hint,
     required this.controller,
-    required this.enabledBorder,
-    required this.focusedBorder,
-    required this.isLocked,
+    this.readOnly = false,
+    this.visible = true,
   });
 
   @override
   _TextFieldState createState() => _TextFieldState();
 }
 
-class _TextFieldState extends State<TextFieldCustomWidget> {
+class _TextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 0, 25, 0),
-      child: TextField(
-        controller: widget.controller,
-        readOnly: widget.isLocked,
-        keyboardType: TextInputType.multiline,
-        decoration: InputDecoration(
-          enabledBorder: widget.enabledBorder,
-          focusedBorder: widget.focusedBorder,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          label: Text(
-            widget.label,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ),
-    );
+        padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+        child: TextField(
+            controller: widget.controller,
+            readOnly: widget.readOnly,
+            keyboardType: TextInputType.multiline,
+            enabled: widget.visible,
+            decoration: InputDecoration(
+                enabledBorder: CustomOutlineBorder.buildCustomBorder(),
+                focusedBorder: CustomOutlineBorder.buildCustomBorder(),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                label: Text(widget.label,
+                    style: const TextStyle(color: Colors.black87, fontSize: 16),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis))));
   }
 }

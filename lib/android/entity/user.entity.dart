@@ -1,14 +1,10 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
 class User {
   final int? id;
   final String? name;
   final String? password;
   final String? email;
   final String? phone;
-  final String? image;
+  final int? imageId;
 
   const User({
     this.id,
@@ -16,7 +12,7 @@ class User {
     required this.password,
     required this.email,
     required this.phone,
-    this.image,
+    this.imageId,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -26,7 +22,7 @@ class User {
       password: json['password'],
       email: json['email'],
       phone: json['phone'],
-      image: json['image'].toString(),
+      imageId: json['image_id'],
     );
   }
 
@@ -38,16 +34,8 @@ class User {
     data['password'] = password;
     data['email'] = email;
     data['phone'] = phone;
-    data['image'] = image.toString();
+    data['image_id'] = imageId;
 
     return data;
-  }
-
-  ImageProvider loadProfileImage() {
-    if (image.toString().isNotEmpty) {
-      return Image.asset("lib/resources/default-profile-photo.png").image;
-    } else {
-      return Image.memory(const Base64Decoder().convert(image!)).image;
-    }
   }
 }

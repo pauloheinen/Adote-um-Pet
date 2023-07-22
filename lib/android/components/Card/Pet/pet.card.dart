@@ -1,15 +1,15 @@
-import 'dart:convert';
-
+import 'package:adote_um_pet/android/utilities/File/file.util.dart';
 import 'package:flutter/material.dart';
 import 'package:infinity_page_view_astro/infinity_page_view_astro.dart';
 
+import '../../../entity/pet-file.entity.dart';
 import '../../../entity/pet.entity.dart';
 
 class PetCard {
   static final InfinityPageController pageController =
       InfinityPageController(initialPage: 0);
 
-  static Widget buildCard(Pet pet) {
+  static Widget buildCard(Pet pet, List<PetFile> files) {
     return Card(
       clipBehavior: Clip.antiAlias,
       color: Colors.yellow[100],
@@ -18,21 +18,19 @@ class PetCard {
       child: Column(
         children: [
           Expanded(
-            child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: InfinityPageView(
-                    controller: pageController,
-                    itemBuilder: (context, pagePosition) => (Container(
-                        margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                        child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(12)),
-                            child: Image(
-                                image: Image.memory(const Base64Decoder()
-                                        .convert(images[pagePosition]))
-                                    .image)))),
-                    itemCount: images.length)),
-          ),
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: InfinityPageView(
+                      controller: pageController,
+                      itemBuilder: (context, pagePosition) => (Container(
+                          margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                          child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(12)),
+                              child: Image(
+                                  image: files.isEmpty ? FileUtil.getDefaultPetImage() : FileUtil.getPetImage(
+                                      files[pagePosition]))))),
+                      itemCount: files.length))),
           Row(
             children: [
               Padding(

@@ -1,45 +1,69 @@
-import 'package:mysql1/mysql1.dart';
+import 'package:mysql_client/mysql_client.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Database {
-  final ConnectionSettings _connectionSettings = ConnectionSettings(
-      host: '10.0.2.2',
-      port: 3306,
-      user: 'root',
-      password: 'root',
-      db: 'petdb');
+  static MySQLConnection? _conn;
+  static final Database _db = Database._();
 
-  Database();
+  Database._();
 
-  Future<MySqlConnection> getConnection() async {
-    return await MySqlConnection.connect(_connectionSettings);
+  static getInstance() {
+    return _db;
   }
 
-  Future<int?> insert(String sql, List<dynamic> params) async {
-    MySqlConnection conn = await getConnection();
+  Future<MySQLConnection> _createConnection() async {
+    await dotenv.load(fileName: "env.env");
 
-    Results results = await conn.query(sql, params);
+    return MySQLConnection.createConnection(
+        host: dotenv.get("host"),
+        collation: dotenv.get("collation"),
+        port: int.parse(dotenv.get("port")),
+        userName: dotenv.get("userName"),
+        password: dotenv.get("password"),
+        databaseName: dotenv.get("databaseName"),
+        secure: bool.parse(dotenv.get("secure")));
+  }
 
-    conn.close();
+  Future<MySQLConnection> getConnection() async {
+    _conn ??= await _createConnection();
 
-    return results.insertId;
+    if (!_conn!.connected) {
+      _conn = await _createConnection();
+      await _conn!.connect();
+    }
+
+    return _conn!;
+  }
+
+  Future<int> insert(String sql, List<dynamic> params) async {
+    _conn = await getConnection();
+
+    PreparedStmt prepared = await _conn!.prepare(sql);
+    IResultSet results = await prepared.execute(params);
+
+    await _conn!.close();
+
+    return results.lastInsertID.toInt();
   }
 
   Future<bool> update(String sql, List<dynamic> params) async {
-    MySqlConnection conn = await getConnection();
+    _conn = await getConnection();
 
-    Results results = await conn.query(sql, params);
+    PreparedStmt prepared = await _conn!.prepare(sql);
+    IResultSet results = await prepared.execute(params);
 
-    conn.close();
+    await _conn!.close();
 
-    return results.affectedRows! > 0;
+    return results.affectedRows.toInt() > 0;
   }
 
-  Future<Results> query(String sql, List<dynamic> params) async {
-    MySqlConnection conn = await getConnection();
+  Future<IResultSet> query(String sql, List<dynamic> params) async {
+    _conn = await getConnection();
 
-    Results results = await conn.query(sql, params);
+    PreparedStmt prepared = await _conn!.prepare(sql);
+    IResultSet results = await prepared.execute(params);
 
-    conn.close();
+    await _conn!.close();
 
     return results;
   }

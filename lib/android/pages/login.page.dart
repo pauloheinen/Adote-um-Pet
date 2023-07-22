@@ -1,10 +1,11 @@
 import 'package:adote_um_pet/android/components/Container/container-theme.dart';
-import 'package:adote_um_pet/android/pages/adopt.page.dart';
-import 'package:adote_um_pet/android/service/user.service.dart';
+import 'package:adote_um_pet/android/services/user.service.dart';
 import 'package:flutter/material.dart';
+
 
 import '../components/Button/elevated.button.dart';
 import '../components/TextField/textfield-validation.dart';
+import '../controller/tab.controller.dart';
 import '../entity/user.entity.dart';
 import '../preferences/preferences.dart';
 import '../prompts/toast.prompt.dart';
@@ -55,12 +56,12 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  TextFieldWithValidationCustomWidget(
+                  CustomValidateTextField(
                     label: "Email",
                     controller: emailController,
                     shouldValidate: true,
                   ),
-                  TextFieldWithValidationCustomWidget(
+                  CustomValidateTextField(
                     label: "Senha",
                     controller: passwordController,
                     shouldValidate: true,
@@ -82,7 +83,8 @@ class _LoginPageState extends State<LoginPage> {
                   Container(
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: ElevatedButtonCustomWidget(label: "Login", _doLogin),
+                    child:
+                        CustomElevatedButton(label: "Login", onClick: _doLogin),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -136,11 +138,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _moveToAdoptPage() {
-    NavigatorUtil.pushAndRemoveTo(context, const AdoptPage());
+    NavigatorUtil.pushAndRemoveTo(context, const HomePage());
   }
 
   _createAccount() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CreateAccountPage()));
-    // NavigatorUtil.pushTo(context, const CreateAccountPage());
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const CreateAccountPage()));
   }
 }

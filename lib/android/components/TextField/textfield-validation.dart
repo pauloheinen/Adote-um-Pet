@@ -1,33 +1,31 @@
+import 'package:adote_um_pet/android/components/Border/OutlineInputBorder/outline.border.dart';
 import 'package:flutter/material.dart';
 
-import '../Border/OutlineInputBorder/outline.border.dart';
-
-class TextFieldWithValidationCustomWidget extends StatefulWidget {
+class CustomValidateTextField extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final bool shouldValidate;
-  final bool? obscure;
+  bool obscure;
+  bool readOnly;
 
-  const TextFieldWithValidationCustomWidget({
+  CustomValidateTextField({
     super.key,
     required this.label,
     required this.controller,
     required this.shouldValidate,
-    this.obscure,
+    this.obscure = false,
+    this.readOnly = false,
   });
 
   @override
-  State<TextFieldWithValidationCustomWidget> createState() =>
-      _TextFieldWithValidationCustomWidgetState();
+  State<CustomValidateTextField> createState() => _CustomValidateTextField();
 }
 
-class _TextFieldWithValidationCustomWidgetState
-    extends State<TextFieldWithValidationCustomWidget> {
-
+class _CustomValidateTextField extends State<CustomValidateTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+      padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
       child: TextFormField(
         style: const TextStyle(color: Colors.black87),
         validator: (value) {
@@ -40,19 +38,19 @@ class _TextFieldWithValidationCustomWidgetState
           return null;
         },
         controller: widget.controller,
+        readOnly: widget.readOnly,
         keyboardType: TextInputType.multiline,
-        obscureText: widget.obscure == null ? false : widget.obscure!,
+        obscureText: widget.obscure,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(8),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          enabledBorder: OutlineCustomBorder.buildCustomBorder(),
-          focusedBorder: OutlineCustomBorder.buildCustomBorder(),
-          focusedErrorBorder: OutlineCustomBorder.buildCustomBorder(),
-          errorBorder: OutlineCustomBorder.buildCustomBorder(),
+          enabledBorder: CustomOutlineBorder.buildCustomBorder(),
+          focusedBorder: CustomOutlineBorder.buildCustomBorder(),
+          focusedErrorBorder: CustomOutlineBorder.buildCustomBorder(),
+          errorBorder: CustomOutlineBorder.buildCustomBorder(),
           errorStyle: const TextStyle(color: Colors.black87),
           label: Text(
             widget.label,
-            style: const TextStyle(color: Colors.black87, fontSize: 20),
+            style: const TextStyle(color: Colors.black87, fontSize: 16),
             softWrap: true,
             overflow: TextOverflow.ellipsis,
           ),

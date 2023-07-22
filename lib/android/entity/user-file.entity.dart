@@ -1,23 +1,24 @@
-class File {
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
+import '../utilities/File/file.util.dart';
+import 'user.entity.dart';
+
+class UserFile {
   final int? id;
-  final int type;
   final int refOwner;
   final String item;
 
-  static int profilePhoto = 0;
-  static int petPhoto = 1;
-
-  const File({
+  const UserFile({
     required this.id,
-    required this.type,
     required this.refOwner,
     required this.item,
   });
 
-  factory File.fromJson(Map<String, dynamic> json) {
-    return File(
+  factory UserFile.fromJson(Map<String, dynamic> json) {
+    return UserFile(
       id: json['id'],
-      type: json['type'],
       refOwner: json['refOwner'],
       item: json['item'].toString(),
     );
@@ -27,7 +28,6 @@ class File {
     final Map<String, dynamic> data = <String, dynamic>{};
 
     data['id'] = id;
-    data['type'] = type;
     data['refOwner'] = refOwner;
     data['item'] = item.toString();
 

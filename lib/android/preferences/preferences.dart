@@ -53,9 +53,9 @@ class Preferences {
     prefs.setString(Preferences.CITY_OPTION, city);
   }
 
-  static void getCityOption() async {
+  static Future<String?> getCityOption() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.getString(Preferences.CITY_OPTION);
+    return prefs.getString(Preferences.CITY_OPTION);
   }
 }

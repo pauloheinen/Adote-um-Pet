@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/android/pages/adopt.page.dart';
+import 'package:adote_um_pet/android/pages/login.page.dart';
 import 'package:flutter/material.dart';
 
 class AndroidApp extends StatelessWidget {
@@ -14,7 +14,7 @@ class AndroidApp extends StatelessWidget {
         brightness: Brightness.light,
         primarySwatch: Colors.green,
       ),
-      home: const AdoptPage(),
+      home: const LoginPage(),
     );
   }
 }

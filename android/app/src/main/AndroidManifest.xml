@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ps.adoteumpet.adote_um_pet">
-   <application
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
         android:label="adote_um_pet"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

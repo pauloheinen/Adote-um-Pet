@@ -5,7 +5,7 @@ import 'package:motion_toast/resources/arrays.dart';
 // pub.dev/packages/motion_toast/versions/2.6.5
 // https://codesinsider.com/flutter-styled-motion-toast-example-tutorial/
 class Toast {
-  static void confirmToast(BuildContext context, String text) {
+  static void confirmToast(BuildContext context, String text) async {
     _buildGeneric(context, text, Icons.check, Colors.green);
   }
 
@@ -21,14 +21,23 @@ class Toast {
     _buildGeneric(context, text, Icons.info, Colors.grey);
   }
 
-  static _buildGeneric(BuildContext context, String text, IconData icon, MaterialColor color) {
-    MotionToast(
-        primaryColor: color,
-        description: Text(text),
-        icon: icon,
-        animationDuration: const Duration(seconds: 5),
-        position: MotionToastPosition.top,
-        animationType: AnimationType.fromTop)
-        .show(context);
+  static void _buildGeneric(BuildContext context, String text, IconData icon, MaterialColor color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 5),
+        margin: const EdgeInsets.all(12),
+        padding: EdgeInsets.zero,
+        behavior: SnackBarBehavior.floating,
+        content: Container(child: Text(text)),
+      ),
+    );
+     // MotionToast(
+     //    primaryColor: color,
+     //    description: Text(text),
+     //    icon: icon,
+     //    animationDuration: const Duration(seconds: 5),
+     //    position: MotionToastPosition.top,
+     //    animationType: AnimationType.fromTop)
+     //    .show(context);
   }
 }

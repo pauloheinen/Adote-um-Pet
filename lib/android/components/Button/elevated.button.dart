@@ -1,43 +1,40 @@
 import 'package:flutter/material.dart';
 
-class ElevatedButtonCustomWidget extends StatefulWidget {
+class CustomElevatedButton extends StatefulWidget {
   final String label;
   final double? labelSize;
-  final Function() callback;
+  final Function()? onClick;
 
-  const ElevatedButtonCustomWidget(
-      this.callback, {
+  const CustomElevatedButton({
     super.key,
     required this.label,
     this.labelSize,
+    this.onClick,
   });
 
   @override
-  State<ElevatedButtonCustomWidget> createState() =>
+  State<CustomElevatedButton> createState() =>
       _ElevatedButtonCustomWidgetState();
 }
 
-class _ElevatedButtonCustomWidgetState
-    extends State<ElevatedButtonCustomWidget> {
+class _ElevatedButtonCustomWidgetState extends State<CustomElevatedButton> {
   void click() {
-    widget.callback.call();
+    if (widget.onClick != null) {
+      widget.onClick?.call();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-        backgroundColor: Colors.green,
-      ),
-      child: Text(
-        widget.label,
-        style: TextStyle(fontSize: widget.labelSize ?? 20, color: Colors.yellow),
-      ),
-      onPressed: () {
-        click();
-      },
-    );
+        style: ElevatedButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          backgroundColor: Colors.green,
+        ),
+        child: Text(widget.label,
+            style: TextStyle(
+                fontSize: widget.labelSize ?? 20, color: Colors.yellow)),
+        onPressed: () => click());
   }
 }

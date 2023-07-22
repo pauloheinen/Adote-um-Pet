@@ -9,12 +9,12 @@ class DropdownCustomButton extends StatefulWidget {
   String value = "";
 
   DropdownCustomButton(
-  {super.key,
-      this.upperTitle,
+      {super.key,
+        this.upperTitle,
       required this.dropdownHint,
       required this.itemList,
-      this.onSelect,required this.value
-      });
+      this.onSelect,
+      required this.value});
 
   @override
   State<DropdownCustomButton> createState() => _DropdownCustomButtonState();
