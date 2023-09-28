@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:adote_um_pet/android/entity/user.entity.dart';
+import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:adote_um_pet/android/services/user-file.service.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';

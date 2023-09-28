@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../entity/pet.entity.dart';
+import '../../entities/pet.entity.dart';
 
 class PetTile {
   Widget createListTile(Pet pet) {
@@ -13,11 +13,7 @@ class PetTile {
             contentPadding: const EdgeInsets.all(15),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25))),
-            title: Text(pet.name,
-                style: const TextStyle(fontSize: 18),
-                softWrap: true,
-                overflow: TextOverflow.visible),
-            subtitle: Text(Pet.getStatus(pet.vaccinated),
+            title: Text(pet.name!,
                 style: const TextStyle(fontSize: 18),
                 softWrap: true,
                 overflow: TextOverflow.visible),

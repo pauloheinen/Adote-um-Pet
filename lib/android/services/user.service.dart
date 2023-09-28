@@ -1,5 +1,5 @@
 import 'package:adote_um_pet/android/database/database.dart';
-import 'package:adote_um_pet/android/entity/user.entity.dart';
+import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 import '../utilities/password.dart';
@@ -92,5 +92,18 @@ class UserService {
     }
 
     return true;
+  }
+
+  Future<User?> getUserById(int refOwner) async {
+    String sql =
+        "select name, password, email, phone, image_id from users where id = ?";
+
+    IResultSet results = await Database.getInstance().query(sql, [refOwner]);
+
+    if (results.rows.firstOrNull == null) {
+      return null;
+    }
+
+    return User.fromJson(results.rows.first.typedAssoc());
   }
 }

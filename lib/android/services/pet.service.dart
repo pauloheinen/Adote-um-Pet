@@ -1,71 +1,88 @@
 import 'package:adote_um_pet/android/database/database.dart';
+import 'package:adote_um_pet/android/services/pet-file.service.dart';
 import 'package:mysql_client/mysql_client.dart';
 
-import '../entity/pet-file.entity.dart';
-import '../entity/pet.entity.dart';
+import '../entities/pet-file.entity.dart';
+import '../entities/pet.entity.dart';
+import '../entities/user.entity.dart';
 
 class PetService {
   Future<int?> addPet(Pet pet) async {
     String sql =
-        "insert into pets (name, vaccinated, ref_owner) values (?, ?, ?)";
+        "insert into pets (name, ref_owner, ref_city, info) values (?, ?, ?, ?)";
 
     int? addedPetId = await Database.getInstance()
-        .insert(sql, [pet.name, pet.vaccinated, pet.refOwner]);
+        .insert(sql, [pet.name, pet.refOwner, pet.refCity, pet.info]);
 
     return addedPetId;
   }
 
   Future<bool> updatePet(Pet pet) async {
     String sql =
-        "update pets set name = ?, vaccinated = ?, ref_owner = ? where id = ?";
+        "update pets set name = ?, ref_owner = ?, ref_city = ?, info = ? where id = ?";
 
     bool updated = await Database.getInstance()
-        .update(sql, [pet.name, pet.vaccinated, pet.refOwner, pet.id]);
+        .update(sql, [pet.name, pet.refOwner, pet.refCity, pet.info, pet.id]);
 
     return updated;
   }
 
-  Future<List<Pet>> getPets() async {
-    String sql = "select id, name, vaccinated, ref_owner from pets";
+  Future<bool> deletePet(Pet pet) async {
+    String sql = "delete from pets where pets.id = ?";
 
-    IResultSet results = await Database.getInstance().query(sql, []);
-
-    List<Pet> pets = List.empty(growable: true);
-
-    if (results.rows.firstOrNull == null) {
-      return pets;
-    }
-
-    for (var element in results) {
-      pets.add(Pet.fromJson(element.rows.first.typedAssoc()));
-    }
-
-    return pets;
+    return await Database.getInstance().delete(sql, [pet.id]);
   }
 
-  Future<Map<Pet, PetFile>> getPetsFilesMap() async {
-    // TODO implement sql search by city
+  Future<Map<Pet, List<PetFile>>> getPetsFilesMapByCityId(int cityId) async {
     String sql =
-        "select p.id, p.name, p.vaccinated, p.ref_owner, f.id, f.ref_owner, f.item from pets p, pet_files f where p.id = f.ref_owner";
+        "select p.id, p.name, p.ref_owner, p.ref_city, p.info from pets p where p.ref_city = ?";
 
-    IResultSet results = await Database.getInstance().query(sql, []);
+    IResultSet results = await Database.getInstance().query(sql, [cityId]);
 
-    Map<Pet, PetFile> petsFilesMap = {};
+    Map<Pet, List<PetFile>> petsFilesMap = {};
+
     if (results.rows.firstOrNull == null) {
       return petsFilesMap;
     }
 
-    for (var element in results) {
+    for (var element in results.rows) {
       Pet pet = Pet(
-          id: element.rows.first.typedAssoc()['id'],
-          name: element.rows.first.typedAssoc()['name'],
-          vaccinated: element.rows.first.typedAssoc()['vaccinated'],
-          refOwner: element.rows.first.typedAssoc()['ref_owner']);
-      PetFile file = PetFile(
-          id: element.rows.first.typedAssoc()['id'],
-          refOwner: element.rows.first.typedAssoc()['ref_owner'],
-          item: element.rows.first.typedAssoc()['item'].toString());
-      petsFilesMap.putIfAbsent(pet, () => file);
+          id: element.typedAssoc()['id'],
+          name: element.typedAssoc()['name'],
+          refOwner: element.typedAssoc()['ref_owner'],
+          refCity: element.typedAssoc()['ref_city'],
+          info: element.typedAssoc()['info']);
+      List<PetFile> files = await PetFileService().getFilesByPet(pet);
+      petsFilesMap.putIfAbsent(pet, () => files);
+    }
+
+    return petsFilesMap;
+  }
+
+  Future<Map<Pet, List<PetFile>>> getPetsFilesMapByCityIdAndUser(
+      int ibgeCity, User user) async {
+    String sql =
+        "select p.id, p.name, p.ref_owner, p.ref_city, p.info from pets p where p.ref_city = ? and p.ref_owner = ?;";
+
+    IResultSet results =
+    await Database.getInstance().query(sql, [ibgeCity, user.id]);
+
+    Map<Pet, List<PetFile>> petsFilesMap = {};
+
+    if (results.rows.firstOrNull == null) {
+      return petsFilesMap;
+    }
+
+    for (var element in results.rows) {
+      Pet pet = Pet(
+          id: element.typedAssoc()['id'],
+          name: element.typedAssoc()['name'],
+          refOwner: element.typedAssoc()['ref_owner'],
+          refCity: element.typedAssoc()['ref_city'],
+          info: element.typedAssoc()['info']);
+
+      List<PetFile> files = await PetFileService().getFilesByPet(pet);
+      petsFilesMap.putIfAbsent(pet, () => files);
     }
 
     return petsFilesMap;

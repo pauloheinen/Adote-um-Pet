@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/android/entity/user-file.entity.dart';
+import 'package:adote_um_pet/android/entities/user-file.entity.dart';
 import 'package:adote_um_pet/android/utilities/File/file.util.dart';
 import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';

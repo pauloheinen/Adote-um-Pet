@@ -1,18 +1,18 @@
 class PetFile {
   final int? id;
-  final int refOwner;
+  final int refPet;
   final String item;
 
   const PetFile({
-    required this.id,
-    required this.refOwner,
+    this.id,
+    required this.refPet,
     required this.item,
   });
 
   factory PetFile.fromJson(Map<String, dynamic> json) {
     return PetFile(
       id: json['id'],
-      refOwner: json['refOwner'],
+      refPet: json['ref_pet'],
       item: json['item'].toString(),
     );
   }
@@ -21,7 +21,7 @@ class PetFile {
     final Map<String, dynamic> data = <String, dynamic>{};
 
     data['id'] = id;
-    data['refOwner'] = refOwner;
+    data['ref_pet'] = refPet;
     data['item'] = item.toString();
 
     return data;

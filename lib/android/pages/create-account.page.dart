@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../components/Button/elevated.button.dart';
 import '../components/TextField/textfield-validation.dart';
-import '../entity/user.entity.dart';
+import '../entities/user.entity.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);
@@ -26,46 +26,57 @@ class _CreateAccountPaneState extends State<CreateAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-            child: ContainerCustomWidget(
-                context: context,
-                child: Form(
-                    key: _formKey,
-                    child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: ListView(children: [
-                          Container(
-                              alignment: Alignment.center,
-                              child:
-                              Image.asset('lib/resources/pet-hotel.png')),
-                          Container(
-                              alignment: Alignment.center,
-                              child: const Text('Criar conta',
-                                  style: TextStyle(fontSize: 20))),
-                          CustomValidateTextField(
-                              label: "Nome",
-                              controller: nameController,
-                              shouldValidate: true),
-                          CustomValidateTextField(
-                              label: "Senha",
-                              controller: passwordController,
-                              shouldValidate: true,
-                              obscure: true),
-                          CustomValidateTextField(
-                              label: "Email",
-                              controller: emailController,
-                              shouldValidate: true),
-                          phoneTextField,
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CustomElevatedButton(
-                                    label: "Voltar", onClick: _popPane),
-                                CustomElevatedButton(
-                                    label: "Criar conta",
-                                    onClick: _createAccount)
-                              ])
-                        ]))))));
+      body: SingleChildScrollView(
+        child: ContainerCustomWidget(
+          context: context,
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ListView(children: [
+                Container(
+                    alignment: Alignment.center,
+                    child: Image.asset('lib/resources/pet-hotel.png')),
+                Container(
+                    alignment: Alignment.center,
+                    child: const Text('Criar conta',
+                        style: TextStyle(fontSize: 20))),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  child: CustomValidateTextField(
+                      label: "Nome",
+                      controller: nameController,
+                      shouldValidate: true),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  child: CustomValidateTextField(
+                      label: "Senha",
+                      controller: passwordController,
+                      shouldValidate: true,
+                      obscure: true),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  child: CustomValidateTextField(
+                      label: "Email",
+                      controller: emailController,
+                      shouldValidate: true),
+                ),
+                phoneTextField,
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomElevatedButton(label: "Voltar", onClick: _popPane),
+                      CustomElevatedButton(
+                          label: "Criar conta", onClick: _createAccount)
+                    ])
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   _createAccount() async {

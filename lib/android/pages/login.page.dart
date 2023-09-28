@@ -2,14 +2,12 @@ import 'package:adote_um_pet/android/components/Container/container-theme.dart';
 import 'package:adote_um_pet/android/services/user.service.dart';
 import 'package:flutter/material.dart';
 
-
 import '../components/Button/elevated.button.dart';
 import '../components/TextField/textfield-validation.dart';
 import '../controller/tab.controller.dart';
-import '../entity/user.entity.dart';
+import '../entities/user.entity.dart';
 import '../preferences/preferences.dart';
 import '../prompts/toast.prompt.dart';
-import '../utilities/Navigator/navigator.util.dart';
 import 'create-account.page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -29,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _autoLogin();
     super.initState();
+    _autoLogin();
   }
 
   @override
@@ -56,16 +54,22 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  CustomValidateTextField(
-                    label: "Email",
-                    controller: emailController,
-                    shouldValidate: true,
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                    child: CustomValidateTextField(
+                      label: "Email",
+                      controller: emailController,
+                      shouldValidate: true,
+                    ),
                   ),
-                  CustomValidateTextField(
-                    label: "Senha",
-                    controller: passwordController,
-                    shouldValidate: true,
-                    obscure: true,
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                    child: CustomValidateTextField(
+                      label: "Senha",
+                      controller: passwordController,
+                      shouldValidate: true,
+                      obscure: true,
+                    ),
                   ),
                   CheckboxListTile(
                     side: const BorderSide(color: Colors.black87),
@@ -84,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child:
-                        CustomElevatedButton(label: "Login", onClick: _doLogin),
+                    CustomElevatedButton(label: "Login", onClick: _doLogin),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -138,7 +142,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _moveToAdoptPage() {
-    NavigatorUtil.pushAndRemoveTo(context, const HomePage());
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   _createAccount() {

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../entity/user.entity.dart';
+import '../entities/user.entity.dart';
 
 class Preferences {
   static const USER_LOGIN_DATA = "USER_LOGIN_DATA";
@@ -47,15 +47,15 @@ class Preferences {
     return prefs.getBool(Preferences.REMEMBER_ME);
   }
 
-  static void saveCityOption(String city) async {
+  static void saveIbgeCity(int city) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString(Preferences.CITY_OPTION, city);
+    prefs.setInt(Preferences.CITY_OPTION, city);
   }
 
-  static Future<String?> getCityOption() async {
+  static Future<int?> getIbgeCity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString(Preferences.CITY_OPTION);
+    return prefs.getInt(Preferences.CITY_OPTION);
   }
 }

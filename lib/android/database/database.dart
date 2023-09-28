@@ -1,5 +1,5 @@
-import 'package:mysql_client/mysql_client.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mysql_client/mysql_client.dart';
 
 class Database {
   static MySQLConnection? _conn;
@@ -52,7 +52,18 @@ class Database {
     PreparedStmt prepared = await _conn!.prepare(sql);
     IResultSet results = await prepared.execute(params);
 
-    await _conn!.close();
+    // await _conn!.close();
+
+    return results.affectedRows.toInt() > 0;
+  }
+
+  Future<bool> delete(String sql, List<dynamic> params) async {
+    _conn = await getConnection();
+
+    PreparedStmt prepared = await _conn!.prepare(sql);
+    IResultSet results = await prepared.execute(params);
+
+    // await _conn!.close();
 
     return results.affectedRows.toInt() > 0;
   }
@@ -63,7 +74,7 @@ class Database {
     PreparedStmt prepared = await _conn!.prepare(sql);
     IResultSet results = await prepared.execute(params);
 
-    await _conn!.close();
+    // await _conn!.close();
 
     return results;
   }

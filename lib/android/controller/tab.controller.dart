@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../pages/login.page.dart';
 import '../preferences/preferences.dart';
-import '../utilities/Navigator/navigator.util.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,9 +19,9 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _views = [
     const ProfilePage(),
-    const MyPetsPage(),
+    MyPetsPage(),
     const AdoptPage(),
-    const ChatPage(),
+    ChatMessagePane(),
   ];
 
   void onTabTapped(int index) {
@@ -32,8 +31,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-          title: const Text("Care Me app"),
+          title: const Text("Adote um Pet"),
           leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back,
@@ -41,7 +41,8 @@ class _HomePageState extends State<HomePage> {
               ),
               onPressed: () {
                 Preferences.clearRememberMe();
-                NavigatorUtil.pushAndRemoveTo(context, const LoginPage());
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
               })),
       body: _views[_currentViewIndex],
       bottomNavigationBar: BottomNavigationBar(

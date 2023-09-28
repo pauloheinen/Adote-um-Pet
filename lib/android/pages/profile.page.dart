@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:adote_um_pet/android/components/Button/elevated.button.dart';
 import 'package:adote_um_pet/android/components/Container/container-theme.dart';
 import 'package:adote_um_pet/android/components/Loading/loading.box.dart';
-import 'package:adote_um_pet/android/entity/user.entity.dart';
+import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/prompts/toast.prompt.dart';
 import 'package:adote_um_pet/android/services/user.service.dart';
@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return _isLoaded == false
-        ? CustomLoadingBox()
+        ? const CustomLoadingBox()
         : Scaffold(
       body: ContainerCustomWidget(
           context: context,
@@ -65,24 +65,36 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Column(children: [
                 CustomUserPhoto(user: _user, editMode: _editMode),
-                CustomTextField(
-                    label: "Nome",
-                    controller: _nameController,
-                    readOnly: !_editMode),
-                CustomValidateTextField(
-                    label: "Senha",
-                    controller: _passwordController,
-                    shouldValidate: true,
-                    obscure: true,
-                    readOnly: true),
-                CustomTextField(
-                    label: "Telefone",
-                    controller: _cellphoneController,
-                    readOnly: !_editMode),
-                CustomTextField(
-                    label: "Email",
-                    controller: _mailController,
-                    readOnly: !_editMode),
+                Container(
+                    padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  child: CustomTextField(
+                      label: "Nome",
+                      controller: _nameController,
+                      readOnly: !_editMode),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  child: CustomValidateTextField(
+                      label: "Senha",
+                      controller: _passwordController,
+                      shouldValidate: true,
+                      obscure: true,
+                      readOnly: true),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  child: CustomTextField(
+                      label: "Telefone",
+                      controller: _cellphoneController,
+                      readOnly: !_editMode),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  child: CustomTextField(
+                      label: "Email",
+                      controller: _mailController,
+                      readOnly: !_editMode),
+                ),
                 Visibility(
                     visible: !_editMode,
                     child: ElevatedButton(
