@@ -1,9 +1,9 @@
 import 'package:adote_um_pet/android/pages/adopt.page.dart';
-import 'package:adote_um_pet/android/pages/chat.page.dart';
 import 'package:adote_um_pet/android/pages/my.pets.page.dart';
 import 'package:adote_um_pet/android/pages/profile.page.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/conversations_page.dart';
 import '../pages/login.page.dart';
 import '../preferences/preferences.dart';
 
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     const ProfilePage(),
     MyPetsPage(),
     const AdoptPage(),
-    ChatMessagePane(),
+    const ConversationsPage(),
   ];
 
   void onTabTapped(int index) {

@@ -1,6 +1,5 @@
 import 'package:adote_um_pet/android/entities/user-file.entity.dart';
 import 'package:adote_um_pet/android/utilities/File/file.util.dart';
-import 'package:flutter/material.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 import '../database/database.dart';
@@ -9,7 +8,8 @@ class UserFileService {
   Future<int?> addFile(UserFile file) async {
     String sql = "insert into user_files (ref_owner, item) values (?, ?)";
 
-    int? addedFileId = await Database.getInstance().insert(sql, [file.refOwner, file.item]);
+    int? addedFileId =
+    await Database.getInstance().insert(sql, [file.refOwner, file.item]);
 
     return addedFileId;
   }
@@ -17,8 +17,8 @@ class UserFileService {
   Future<bool> updateFile(UserFile file) async {
     String sql = "update user_files set ref_owner = ?, item = ? where id = ?";
 
-    bool updated =
-        await Database.getInstance().update(sql, [file.refOwner, file.item, file.id]);
+    bool updated = await Database.getInstance()
+        .update(sql, [file.refOwner, file.item, file.id]);
 
     return updated;
   }

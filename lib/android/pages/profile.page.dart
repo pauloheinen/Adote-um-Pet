@@ -64,9 +64,13 @@ class _ProfilePageState extends State<ProfilePage> {
           child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Column(children: [
-                CustomUserPhoto(user: _user, editMode: _editMode),
+                CustomUserPhoto(
+                  user: _user,
+                  editMode: _editMode,
+                  photoSize: CustomUserPhoto.profileSize,
+                ),
                 Container(
-                    padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
+                  padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
                   child: CustomTextField(
                       label: "Nome",
                       controller: _nameController,

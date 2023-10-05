@@ -94,11 +94,11 @@ class UserService {
     return true;
   }
 
-  Future<User?> getUserById(int refOwner) async {
+  Future<User?> getUserById(int userId) async {
     String sql =
-        "select name, password, email, phone, image_id from users where id = ?";
+        "select id, name, password, email, phone, image_id from users where id = ?";
 
-    IResultSet results = await Database.getInstance().query(sql, [refOwner]);
+    IResultSet results = await Database.getInstance().query(sql, [userId]);
 
     if (results.rows.firstOrNull == null) {
       return null;

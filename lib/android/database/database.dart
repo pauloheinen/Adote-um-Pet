@@ -52,8 +52,6 @@ class Database {
     PreparedStmt prepared = await _conn!.prepare(sql);
     IResultSet results = await prepared.execute(params);
 
-    // await _conn!.close();
-
     return results.affectedRows.toInt() > 0;
   }
 
@@ -63,8 +61,6 @@ class Database {
     PreparedStmt prepared = await _conn!.prepare(sql);
     IResultSet results = await prepared.execute(params);
 
-    // await _conn!.close();
-
     return results.affectedRows.toInt() > 0;
   }
 
@@ -73,8 +69,6 @@ class Database {
 
     PreparedStmt prepared = await _conn!.prepare(sql);
     IResultSet results = await prepared.execute(params);
-
-    // await _conn!.close();
 
     return results;
   }

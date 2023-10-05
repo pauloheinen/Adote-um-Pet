@@ -1,6 +1,7 @@
 import 'package:adote_um_pet/android/components/Editor/pet.editor.dart';
 import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:adote_um_pet/android/pages/chat.page.dart';
+import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/prompts/toast.prompt.dart';
 import 'package:adote_um_pet/android/services/pet-file.service.dart';
 import 'package:adote_um_pet/android/services/pet.service.dart';
@@ -38,20 +39,29 @@ class _PetCardState extends State<PetCard> {
   String info = "";
   String owner = "";
   bool loaded = false;
+  User? actualUser;
+  User? ownerPet;
 
   @override
   void initState() {
     super.initState();
     _loadPetInfo();
+
+    _loadActualUser();
+  }
+
+  void _loadActualUser() async {
+    await Preferences.getUserData().then((user) => actualUser = user);
   }
 
   void _loadPetInfo() async {
+    await _getPetOwner();
     name = widget.pet.name!;
     city = _getCityName();
     info = widget.pet.info!;
     owner = await _getRefOwnerName().whenComplete(() => setState(() {
-          loaded = true;
-        }));
+      loaded = true;
+    }));
   }
 
   @override
@@ -76,12 +86,12 @@ class _PetCardState extends State<PetCard> {
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 5),
                 child: loaded
                     ? Text(
-                        _displayInfo(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
+                  _displayInfo(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
                     : const CircularProgressIndicator(),
               ),
               const Spacer(),
@@ -93,13 +103,9 @@ class _PetCardState extends State<PetCard> {
                 onSelected: (value) {
                   if (value == 1) {
                     _editPet();
-                  }
-
-                  if (value == 2) {
+                  } else if (value == 2) {
                     _deletePet();
-                  }
-
-                  if (value == 3) {
+                  } else if (value == 3) {
                     _openChat();
                   }
                 },
@@ -114,11 +120,12 @@ class _PetCardState extends State<PetCard> {
                     value: 2,
                     enabled: widget.editable!,
                     child:
-                        const Text("Deletar", style: TextStyle(fontSize: 12)),
+                    const Text("Deletar", style: TextStyle(fontSize: 12)),
                   ),
                   PopupMenuItem(
                     value: 3,
-                    enabled: !widget.editable!,
+                    enabled: (!widget.editable! &&
+                        widget.pet.refOwner != actualUser!.id),
                     child: const Text("Abrir chat",
                         style: TextStyle(fontSize: 12)),
                   ),
@@ -135,10 +142,12 @@ class _PetCardState extends State<PetCard> {
     return CidadesEstadosIbge().cidadePorIbge(widget.pet.refCity).nome!;
   }
 
-  Future<String> _getRefOwnerName() async {
-    User? user = await UserService().getUserById(widget.pet.refOwner);
+  Future<void> _getPetOwner() async {
+    ownerPet = await UserService().getUserById(widget.pet.refOwner);
+  }
 
-    return user!.name!;
+  Future<String> _getRefOwnerName() async {
+    return ownerPet!.name!;
   }
 
   String _displayInfo() {
@@ -175,8 +184,20 @@ class _PetCardState extends State<PetCard> {
     ).show(context);
   }
 
-  void _openChat() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => ChatMessagePane()));
+  void _openChat() async {
+    await Preferences.getUserData().then(
+          (userFrom) async => {
+        await UserService().getUserById(widget.pet.refOwner).then((userTo) => {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ChatPage(
+                fromUser: userFrom,
+                toUser: userTo!,
+              ),
+            ),
+          ),
+        })
+      },
+    );
   }
 }
