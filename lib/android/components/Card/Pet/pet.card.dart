@@ -2,7 +2,7 @@ import 'package:adote_um_pet/android/components/Editor/pet.editor.dart';
 import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:adote_um_pet/android/pages/chat.page.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
-import 'package:adote_um_pet/android/prompts/toast.prompt.dart';
+import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
 import 'package:adote_um_pet/android/services/pet-file.service.dart';
 import 'package:adote_um_pet/android/services/pet.service.dart';
 import 'package:cidades_estados_ibge/cidades_estados_ibge.dart';

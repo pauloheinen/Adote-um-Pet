@@ -13,8 +13,8 @@ class CustomCityPicker extends StatefulWidget {
   final Function()? onSelectCity;
 
   String sampleText = "Filtre uma cidade";
-  final List<String> states = List.empty(growable: true);
-  final List<String> cities = List.empty(growable: true);
+  final List<String> states = [];
+  final List<String> cities = [];
 
   String state = "";
   String city = "";
@@ -170,6 +170,7 @@ class _CustomCityPickerState extends State<CustomCityPicker> {
   }
 
   void _loadStates() {
+    widget.states.clear();
     widget.states.addAll(_ibgeApi.getUfs().map((e) => e.sigla!).toList());
   }
 

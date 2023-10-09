@@ -5,7 +5,7 @@ import 'package:adote_um_pet/android/components/TextField/textfield-validation.d
 import 'package:adote_um_pet/android/components/TextField/textfield.dart';
 import 'package:adote_um_pet/android/entities/pet-file.entity.dart';
 import 'package:adote_um_pet/android/entities/pet.entity.dart';
-import 'package:adote_um_pet/android/prompts/toast.prompt.dart';
+import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
 import 'package:adote_um_pet/android/services/pet-file.service.dart';
 import 'package:adote_um_pet/android/services/pet.service.dart';
 import 'package:cidades_estados_ibge/cidades_estados_ibge.dart';

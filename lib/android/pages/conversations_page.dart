@@ -3,7 +3,6 @@ import 'package:adote_um_pet/android/entities/message.entity.dart';
 import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/services/message_service.dart';
-import 'package:adote_um_pet/android/services/user.service.dart';
 import 'package:flutter/material.dart';
 
 import 'chat.page.dart';
@@ -18,7 +17,7 @@ class ConversationsPage extends StatefulWidget {
 class _ConversationsPageState extends State<ConversationsPage> {
   User? actualUser;
   Map<Message, Map<User, User>> _messagesAndUsersMap = {};
-  List<Color> backgroundColors = [Colors.lightGreen[300]!, Colors.yellow[700]!];
+  List<Color> backgroundColors = [Colors.lightGreen[300]!, Colors.yellow[300]!];
 
   @override
   void initState() {
@@ -62,7 +61,9 @@ class _ConversationsPageState extends State<ConversationsPage> {
                       photoSize: CustomUserPhoto.appbarSize,
                     ),
                   ),
-                  title: Text(recipientUser.name!),
+                  title: message.senderId == actualUser!.id
+                      ? Text(recipientUser.name!)
+                      : Text(senderUser.name!),
                   subtitle: Row(
                     children: [
                       message.senderId == actualUser!.id
@@ -72,7 +73,11 @@ class _ConversationsPageState extends State<ConversationsPage> {
                       Text(message.messageText),
                     ],
                   ),
-                  onTap: () => _openChat(message),
+                  onTap: () => {
+                    _openChat(message.senderId == actualUser!.id
+                        ? recipientUser
+                        : senderUser),
+                  },
                 ),
               ),
               const Divider(
@@ -86,17 +91,14 @@ class _ConversationsPageState extends State<ConversationsPage> {
     );
   }
 
-  Future<void> _openChat(Message message) async {
-    User? senderUser = await UserService().getUserById(message.senderId);
-    User? recipientUser = await UserService().getUserById(message.recipientId);
-
+  Future<void> _openChat(User sendToUser) async {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ChatPage(
-          fromUser: senderUser!,
-          toUser: recipientUser!,
+          fromUser: actualUser!,
+          toUser: sendToUser,
         ),
       ),
-    );
+    ).then((value) => _loadMessagesAndUsers());
   }
 }

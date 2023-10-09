@@ -5,7 +5,7 @@ import 'package:adote_um_pet/android/components/Picker/city.picker.dart';
 import 'package:adote_um_pet/android/controller/city_picker_controller.dart';
 import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
-import 'package:adote_um_pet/android/prompts/toast.prompt.dart';
+import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
 import 'package:flutter/material.dart';
 
 import '../entities/pet-file.entity.dart';
@@ -64,7 +64,7 @@ class _MyPetsPageState extends State<MyPetsPage> {
                             .cityPickerController.selectedState,
                         onSelectCity: () {
                           setState(() {
-                            _loadPets();
+
                           });
                         },
                       ),

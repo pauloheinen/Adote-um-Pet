@@ -7,7 +7,7 @@ import '../components/TextField/textfield-validation.dart';
 import '../controller/tab.controller.dart';
 import '../entities/user.entity.dart';
 import '../preferences/preferences.dart';
-import '../prompts/toast.prompt.dart';
+import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
 import 'create-account.page.dart';
 
 class LoginPage extends StatefulWidget {

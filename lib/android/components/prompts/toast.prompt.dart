@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utilities/Global/global.dart';
+import '../../utilities/Global/global.dart';
 
 class Toast {
   static void confirmToast(BuildContext context, String text) async {

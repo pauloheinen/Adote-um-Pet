@@ -69,6 +69,9 @@ class _AdoptPageState extends State<AdoptPage> {
                   cityFilterController: _cityFilterController,
                   state: _selectedState,
                   city: _selectedCity,
+                  onSelectCity: () {
+                    setState(() {});
+                  },
                 ),
                 Expanded(
                   child: Container(
@@ -88,7 +91,7 @@ class _AdoptPageState extends State<AdoptPage> {
                           final pet = _map.keys.toList()[index];
                           final files =
                           _map.values.elementAt(index);
-                          return PetCard(pet:pet, files:files);
+                          return PetCard(pet: pet, files: files);
                         }),
                   ),
                 ),
@@ -104,6 +107,7 @@ class _AdoptPageState extends State<AdoptPage> {
     int? ibgeCity = await Preferences.getIbgeCity();
 
     if (ibgeCity != null) {
+      _map.clear();
       _map.addAll(await PetService().getPetsFilesMapByCityId(ibgeCity));
     }
 

@@ -1,6 +1,6 @@
 import 'package:adote_um_pet/android/components/Container/container-theme.dart';
 import 'package:adote_um_pet/android/components/TextField/phone.textfield.dart';
-import 'package:adote_um_pet/android/prompts/toast.prompt.dart';
+import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
 import 'package:adote_um_pet/android/services/user.service.dart';
 import 'package:flutter/material.dart';
 

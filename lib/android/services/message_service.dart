@@ -43,22 +43,16 @@ class MessageService {
   }
 
   Future<Map<Message, Map<User, User>>> getMessagesFromUser(User user) async {
-    String sql =
-        "select m.id, m.sender_id, m.recipient_id, m.message_text, m.ts_message, m.uuid "
-        "from "
-        "messages m "
-        "inner join "
-        "( "
-        "select uuid, max(ts_message) as max_ts_message "
-        "from "
-        "messages "
-        "group by "
-        "uuid "
-        ") "
-        "as MaxMsg on m.uuid = MaxMsg.uuid "
-        "and m.ts_message = MaxMsg.max_ts_message "
-        "where sender_id = ? "
-        "or recipient_id = ?";
+    String sql = """
+                  select m1.*
+              from messages m1
+              inner join (
+                  select uuid, max(ts_message) as max_ts_message
+                  from messages
+                  group by uuid
+              ) m2 on m1.uuid = m2.uuid and m1.ts_message = m2.max_ts_message
+              where m1.sender_id = ? or m1.recipient_id = ?""";
+
 
     IResultSet results =
     await Database.getInstance().query(sql, [user.id, user.id]);
