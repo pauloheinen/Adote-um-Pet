@@ -2,10 +2,9 @@ import 'package:adote_um_pet/android/components/Chat/chat_input_bar.dart';
 import 'package:adote_um_pet/android/entities/message.entity.dart';
 import 'package:adote_um_pet/android/services/message_service.dart';
 import 'package:adote_um_pet/android/utilities/Uuid/uuid_utils.dart';
+import 'package:adote_um_pet/android/websocket/websocket_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../components/Chat/chat_message_list.dart';
 import '../components/RoundedPhoto/user.photo.dart';
@@ -14,11 +13,13 @@ import '../entities/user.entity.dart';
 class ChatPage extends StatefulWidget {
   final User fromUser;
   final User toUser;
+  final VoidCallback? onConversationUpdated;
 
-  const ChatPage({
+  ChatPage({
     Key? key,
     required this.fromUser,
     required this.toUser,
+    this.onConversationUpdated,
   }) : super(key: key);
 
   @override
@@ -28,20 +29,26 @@ class ChatPage extends StatefulWidget {
 class ChatPageState extends State<ChatPage> {
   late TextEditingController _messageController;
   late ScrollController _controller;
-  late IO.Socket socket;
+  late final WebSocketManager socketManager;
 
-  List<Message> _messagesList = [];
+  final List<Message> _messagesList = [];
+
+  @override
+  void dispose() {
+    // socketManager.disconnectSocket();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
+
     _messageController = TextEditingController();
     _controller = ScrollController();
 
     _loadMessages();
 
     initSocket();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToLastMessage);
   }
 
   void _scrollToLastMessage() {
@@ -52,34 +59,40 @@ class ChatPageState extends State<ChatPage> {
     );
   }
 
-  Future<void> _loadMessages() async {
+  void _loadMessages() async {
+    _messagesList.clear();
     _messagesList.addAll(await MessageService()
         .getMessagesFromUUID(widget.fromUser, widget.toUser));
-
     setState(() {});
+    _scrollToLastMessage();
   }
 
   Future<void> initSocket() async {
-    await dotenv.load(fileName: "env.env");
+    socketManager = WebSocketManager.instance;
 
-    socket = IO.io(dotenv.get('websocketUrl'), <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-      'query': {
-        'userName': widget.fromUser.name,
-      }
+    await socketManager.initSocket(widget.fromUser,
+        onReceiveMessage: (message) {
+      receiveMessage(message);
     });
+  }
 
-    socket.connect();
-    socket.onConnect((_) {
-      print('connected to websocket');
-    });
-    socket.on('chat', (message) {
-      print("evento de chat dentro do initstate");
+  void receiveMessage(dynamic msg) {
+    print("tentando receber mensagem na chatpage");
+    if ( ! socketManager.isConnected())
+    {
+      initSocket().then((value) => receiveMessage(msg));
+    }
+
+    if (mounted) {
       setState(() {
+
+        Message message = Message.fromJson(msg);
+        print("mensagem recebida na chatpage ${message.messageText}");
         _messagesList.add(message);
+        widget.onConversationUpdated!();
       });
-    });
+      _scrollToLastMessage();
+    }
   }
 
   void _sendMessage() async {
@@ -87,7 +100,7 @@ class ChatPageState extends State<ChatPage> {
     _messageController.text = '';
     if (messageText != '') {
       String formattedDate =
-      DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+          DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
 
       Message message = Message(
         senderId: widget.fromUser.id!,
@@ -99,21 +112,16 @@ class ChatPageState extends State<ChatPage> {
       );
 
       await MessageService().addMessage(message).then((value) => {
-        setState(() {
-          _messagesList.add(message);
-        }),
-        socket.emit('chat', message.toJson()),
-      });
+            setState(() {
+              print("mensagem enviada");
+              socketManager.sendMessage(message.toJson());
+              _messagesList.add(message);
+              widget.onConversationUpdated!();
+            }),
+          });
 
       _scrollToLastMessage();
     }
-  }
-
-  @override
-  void dispose() {
-    _messageController.dispose();
-    socket.disconnect();
-    super.dispose();
   }
 
   @override

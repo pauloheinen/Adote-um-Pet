@@ -1,4 +1,5 @@
 import 'package:adote_um_pet/android/components/Container/container-theme.dart';
+import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
 import 'package:adote_um_pet/android/services/user.service.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,6 @@ import '../components/TextField/textfield-validation.dart';
 import '../controller/tab.controller.dart';
 import '../entities/user.entity.dart';
 import '../preferences/preferences.dart';
-import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
 import 'create-account.page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child:
-                    CustomElevatedButton(label: "Login", onClick: _doLogin),
+                        CustomElevatedButton(label: "Login", onClick: _doLogin),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -141,12 +141,12 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  _moveToAdoptPage() {
+  void _moveToAdoptPage() {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
-  _createAccount() {
+  void _createAccount() {
     Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const CreateAccountPage()));
   }

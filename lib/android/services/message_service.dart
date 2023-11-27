@@ -44,18 +44,16 @@ class MessageService {
 
   Future<Map<Message, Map<User, User>>> getMessagesFromUser(User user) async {
     String sql = """
-                  select m1.*
-              from messages m1
-              inner join (
-                  select uuid, max(ts_message) as max_ts_message
-                  from messages
-                  group by uuid
-              ) m2 on m1.uuid = m2.uuid and m1.ts_message = m2.max_ts_message
-              where m1.sender_id = ? or m1.recipient_id = ?""";
-
+                  select m.*
+                  from messages m
+                  where 
+                  id = ( select MAX(id) from messages where sender_id = ?
+                  or recipient_id = ? )
+                  and ( sender_id = ? or recipient_id = ? )
+                  group by uuid""";
 
     IResultSet results =
-    await Database.getInstance().query(sql, [user.id, user.id]);
+    await Database.getInstance().query(sql, [user.id, user.id, user.id, user.id]);
 
     Map<Message, Map<User, User>> messages = {};
 

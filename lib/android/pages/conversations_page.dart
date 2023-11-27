@@ -3,12 +3,13 @@ import 'package:adote_um_pet/android/entities/message.entity.dart';
 import 'package:adote_um_pet/android/entities/user.entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/services/message_service.dart';
+import 'package:adote_um_pet/android/websocket/websocket_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'chat.page.dart';
 
 class ConversationsPage extends StatefulWidget {
-  const ConversationsPage({super.key});
+  const ConversationsPage();
 
   @override
   _ConversationsPageState createState() => _ConversationsPageState();
@@ -18,20 +19,50 @@ class _ConversationsPageState extends State<ConversationsPage> {
   User? actualUser;
   Map<Message, Map<User, User>> _messagesAndUsersMap = {};
   List<Color> backgroundColors = [Colors.lightGreen[300]!, Colors.yellow[300]!];
+  late final WebSocketManager socketManager;
+
+  @override
+  void dispose() {
+    print("dispose em conversations page ");
+    if ( socketManager.isConnected()) {
+      socketManager.disconnectSocket();
+    }
+
+    super.dispose();
+  }
+
 
   @override
   void initState() {
     super.initState();
 
-    _loadMessagesAndUsers();
+    _loadMessagesAndUsers().then((value) => {initWebSocket()});
   }
 
   Future<void> _loadMessagesAndUsers() async {
     actualUser = await Preferences.getUserData();
-    _messagesAndUsersMap =
-    await MessageService().getMessagesFromUser(actualUser!);
-    setState(() {});
+
+    refreshPage();
   }
+
+  Future<void> initWebSocket() async {
+    socketManager = WebSocketManager.instance;
+    await socketManager.initSocket(actualUser!, onReceiveMessage: (message) {
+      if (socketManager.isConnected()) {
+        refreshPage();
+      }
+    });
+  }
+
+  Future<void> refreshPage() async {
+    if (mounted) {
+      _messagesAndUsersMap =
+      await MessageService().getMessagesFromUser(actualUser!);
+
+      setState(() {});
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +72,12 @@ class _ConversationsPageState extends State<ConversationsPage> {
         itemBuilder: (context, index) {
           Message message = _messagesAndUsersMap.keys.elementAt(index);
           User senderUser =
-          _messagesAndUsersMap.values.elementAt(index).keys.elementAt(0);
+              _messagesAndUsersMap.values.elementAt(index).keys.elementAt(0);
           User recipientUser =
-          _messagesAndUsersMap.values.elementAt(index).values.elementAt(0);
+              _messagesAndUsersMap.values.elementAt(index).values.elementAt(0);
 
           Color backgroundColor =
-          backgroundColors[index % backgroundColors.length];
+              backgroundColors[index % backgroundColors.length];
 
           return Column(
             children: [
@@ -66,17 +97,24 @@ class _ConversationsPageState extends State<ConversationsPage> {
                       : Text(senderUser.name!),
                   subtitle: Row(
                     children: [
-                      message.senderId == actualUser!.id
-                          ? const Icon(Icons.call_made)
-                          : const Icon(Icons.call_received),
+                      Icon(message.senderId == actualUser!.id
+                          ? Icons.call_made
+                          : Icons.call_received),
                       const SizedBox(width: 5),
-                      Text(message.messageText),
+                      Expanded(
+                        child: Text(
+                          message.messageText,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                      ),
                     ],
                   ),
-                  onTap: () => {
+                  onTap: () {
                     _openChat(message.senderId == actualUser!.id
                         ? recipientUser
-                        : senderUser),
+                        : senderUser);
                   },
                 ),
               ),
@@ -92,13 +130,18 @@ class _ConversationsPageState extends State<ConversationsPage> {
   }
 
   Future<void> _openChat(User sendToUser) async {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ChatPage(
-          fromUser: actualUser!,
-          toUser: sendToUser,
-        ),
-      ),
-    ).then((value) => _loadMessagesAndUsers());
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => ChatPage(
+              fromUser: actualUser!,
+              toUser: sendToUser,
+              onConversationUpdated: () {
+                refreshPage();
+              },
+            ),
+          ),
+        )
+        .then((value) => refreshPage());
   }
 }
