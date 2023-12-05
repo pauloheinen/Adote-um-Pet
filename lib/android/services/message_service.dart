@@ -1,9 +1,9 @@
-import 'package:adote_um_pet/android/entities/user.entity.dart';
-import 'package:adote_um_pet/android/services/user.service.dart';
+import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 import '../database/database.dart';
-import '../entities/message.entity.dart';
+import '../entities/message_entity.dart';
 import '../utilities/Uuid/uuid_utils.dart';
 
 class MessageService {

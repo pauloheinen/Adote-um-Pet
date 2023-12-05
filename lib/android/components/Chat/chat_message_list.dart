@@ -1,7 +1,7 @@
-import 'package:adote_um_pet/android/entities/message.entity.dart';
+import 'package:adote_um_pet/android/entities/message_entity.dart';
 import 'package:flutter/material.dart';
 
-import '../../entities/user.entity.dart';
+import '../../entities/user_entity.dart';
 import 'chat_bubble.dart';
 
 class ChatMessageList extends StatelessWidget {

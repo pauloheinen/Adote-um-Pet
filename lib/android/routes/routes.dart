@@ -1,10 +1,10 @@
-import 'package:adote_um_pet/android/pages/adopt.page.dart';
+import 'package:adote_um_pet/android/pages/adopt_page.dart';
 import 'package:adote_um_pet/android/pages/conversations_page.dart';
-import 'package:adote_um_pet/android/pages/create-account.page.dart';
+import 'package:adote_um_pet/android/pages/create_account_page.dart';
 import 'package:adote_um_pet/android/pages/empty_pet_page.dart';
-import 'package:adote_um_pet/android/pages/login.page.dart';
-import 'package:adote_um_pet/android/pages/my.pets.page.dart';
-import 'package:adote_um_pet/android/pages/profile.page.dart';
+import 'package:adote_um_pet/android/pages/empty_page.dart';
+import 'package:adote_um_pet/android/pages/my_pets_page.dart';
+import 'package:adote_um_pet/android/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 
 class Routes {

@@ -1,7 +1,7 @@
 import 'package:adote_um_pet/android/controller/city_picker_controller.dart';
 import 'package:flutter/material.dart';
 
-import '../components/Picker/city.picker.dart';
+import '../components/Picker/city_picker.dart';
 
 class EmptyPetPage extends StatefulWidget {
   final CityPickerController controller = CityPickerController();

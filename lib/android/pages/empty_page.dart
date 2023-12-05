@@ -1,14 +1,14 @@
-import 'package:adote_um_pet/android/components/Container/container-theme.dart';
-import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
-import 'package:adote_um_pet/android/services/user.service.dart';
+import 'package:adote_um_pet/android/components/Container/container_theme.dart';
+import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
+import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:flutter/material.dart';
 
-import '../components/Button/elevated.button.dart';
-import '../components/TextField/textfield-validation.dart';
-import '../controller/tab.controller.dart';
-import '../entities/user.entity.dart';
+import '../components/Button/elevated_button.dart';
+import '../components/TextField/textfield_validation.dart';
+import '../controller/tab_controller.dart';
+import '../entities/user_entity.dart';
 import '../preferences/preferences.dart';
-import 'create-account.page.dart';
+import 'create_account_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

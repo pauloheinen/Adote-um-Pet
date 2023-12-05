@@ -1,5 +1,5 @@
 import 'package:adote_um_pet/android/components/Chat/chat_input_bar.dart';
-import 'package:adote_um_pet/android/entities/message.entity.dart';
+import 'package:adote_um_pet/android/entities/message_entity.dart';
 import 'package:adote_um_pet/android/services/message_service.dart';
 import 'package:adote_um_pet/android/utilities/Uuid/uuid_utils.dart';
 import 'package:adote_um_pet/android/websocket/websocket_manager.dart';
@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../components/Chat/chat_message_list.dart';
-import '../components/RoundedPhoto/user.photo.dart';
-import '../entities/user.entity.dart';
+import '../components/RoundedPhoto/user_photo.dart';
+import '../entities/user_entity.dart';
 
 class ChatPage extends StatefulWidget {
   final User fromUser;
   final User toUser;
   final VoidCallback? onConversationUpdated;
 
-  ChatPage({
+  const ChatPage({
     Key? key,
     required this.fromUser,
     required this.toUser,
@@ -35,7 +35,6 @@ class ChatPageState extends State<ChatPage> {
 
   @override
   void dispose() {
-    // socketManager.disconnectSocket();
     super.dispose();
   }
 
@@ -72,24 +71,22 @@ class ChatPageState extends State<ChatPage> {
 
     await socketManager.initSocket(widget.fromUser,
         onReceiveMessage: (message) {
-      receiveMessage(message);
-    });
+          receiveMessage(message);
+        });
   }
 
   void receiveMessage(dynamic msg) {
-    print("tentando receber mensagem na chatpage");
-    if ( ! socketManager.isConnected())
-    {
+    if (!socketManager.isConnected()) {
       initSocket().then((value) => receiveMessage(msg));
     }
 
     if (mounted) {
       setState(() {
-
         Message message = Message.fromJson(msg);
-        print("mensagem recebida na chatpage ${message.messageText}");
         _messagesList.add(message);
-        widget.onConversationUpdated!();
+        if (widget.onConversationUpdated != null) {
+          widget.onConversationUpdated!();
+        }
       });
       _scrollToLastMessage();
     }
@@ -100,7 +97,7 @@ class ChatPageState extends State<ChatPage> {
     _messageController.text = '';
     if (messageText != '') {
       String formattedDate =
-          DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+      DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
 
       Message message = Message(
         senderId: widget.fromUser.id!,
@@ -112,13 +109,14 @@ class ChatPageState extends State<ChatPage> {
       );
 
       await MessageService().addMessage(message).then((value) => {
-            setState(() {
-              print("mensagem enviada");
-              socketManager.sendMessage(message.toJson());
-              _messagesList.add(message);
-              widget.onConversationUpdated!();
-            }),
-          });
+        setState(() {
+          socketManager.sendMessage(message.toJson());
+          _messagesList.add(message);
+          if (widget.onConversationUpdated != null) {
+            widget.onConversationUpdated!();
+          }
+        }),
+      });
 
       _scrollToLastMessage();
     }

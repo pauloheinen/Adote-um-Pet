@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import '../utilities/File/file.util.dart';
-import 'user.entity.dart';
+import '../utilities/File/file_util.dart';
+import 'user_entity.dart';
 
 class UserFile {
   final int? id;

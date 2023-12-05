@@ -1,6 +1,6 @@
-import 'package:adote_um_pet/android/components/Border/UnderlineBorder/underline.border.dart';
-import 'package:adote_um_pet/android/components/Button/elevated.button.dart';
-import 'package:adote_um_pet/android/components/Dropdown/dropdown.button.dart';
+import 'package:adote_um_pet/android/components/Border/UnderlineBorder/underline_border.dart';
+import 'package:adote_um_pet/android/components/Button/elevated_button.dart';
+import 'package:adote_um_pet/android/components/Dropdown/dropdown_button.dart';
 import 'package:adote_um_pet/android/components/TextField/textfield.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:cidades_estados_ibge/cidades_estados_ibge.dart';

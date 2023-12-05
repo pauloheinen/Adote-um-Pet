@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:adote_um_pet/android/entities/pet-file.entity.dart';
+import 'package:adote_um_pet/android/entities/pet_file_entity.dart';
 import 'package:flutter/material.dart';
 
-import '../../entities/user-file.entity.dart';
+import '../../entities/user_file_entity.dart';
 
 class FileUtil {
   static ImageProvider getPetImage(PetFile file) {

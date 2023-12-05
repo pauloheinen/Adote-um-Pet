@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Border/OutlineInputBorder/outline.border.dart';
+import '../Border/OutlineInputBorder/outline_border.dart';
 
 class CustomTextField extends StatefulWidget {
   final String label;

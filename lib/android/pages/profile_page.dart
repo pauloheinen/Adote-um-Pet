@@ -1,19 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:adote_um_pet/android/components/Button/elevated.button.dart';
-import 'package:adote_um_pet/android/components/Container/container-theme.dart';
-import 'package:adote_um_pet/android/components/Loading/loading.box.dart';
-import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
-import 'package:adote_um_pet/android/entities/user.entity.dart';
+import 'package:adote_um_pet/android/components/Button/elevated_button.dart';
+import 'package:adote_um_pet/android/components/Container/container_theme.dart';
+import 'package:adote_um_pet/android/components/Loading/loading_box.dart';
+import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
+import 'package:adote_um_pet/android/entities/user_entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
-import 'package:adote_um_pet/android/services/user.service.dart';
+import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../components/RoundedPhoto/user.photo.dart';
-import '../components/TextField/textfield-validation.dart';
+import '../components/RoundedPhoto/user_photo.dart';
+import '../components/TextField/textfield_validation.dart';
 import '../components/TextField/textfield.dart';
 import '../utilities/password.dart';
 

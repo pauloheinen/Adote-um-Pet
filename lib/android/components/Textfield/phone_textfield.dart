@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../Border/OutlineInputBorder/outline.border.dart';
+import '../Border/OutlineInputBorder/outline_border.dart';
 
 class CustomPhoneTextField extends StatelessWidget {
   final TextEditingController controller = TextEditingController();

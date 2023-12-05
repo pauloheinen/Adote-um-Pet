@@ -1,12 +1,12 @@
-import 'package:adote_um_pet/android/components/Container/container-theme.dart';
-import 'package:adote_um_pet/android/components/TextField/phone.textfield.dart';
-import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
-import 'package:adote_um_pet/android/services/user.service.dart';
+import 'package:adote_um_pet/android/components/Container/container_theme.dart';
+import 'package:adote_um_pet/android/components/TextField/phone_textfield.dart';
+import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
+import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:flutter/material.dart';
 
-import '../components/Button/elevated.button.dart';
-import '../components/TextField/textfield-validation.dart';
-import '../entities/user.entity.dart';
+import '../components/Button/elevated_button.dart';
+import '../components/TextField/textfield_validation.dart';
+import '../entities/user_entity.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);

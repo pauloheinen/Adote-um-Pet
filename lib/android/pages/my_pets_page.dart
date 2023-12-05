@@ -1,16 +1,16 @@
-import 'package:adote_um_pet/android/components/Card/Pet/pet.card.dart';
-import 'package:adote_um_pet/android/components/Editor/pet.editor.dart';
-import 'package:adote_um_pet/android/components/Loading/loading.box.dart';
-import 'package:adote_um_pet/android/components/Picker/city.picker.dart';
+import 'package:adote_um_pet/android/components/Card/Pet/pet_card.dart';
+import 'package:adote_um_pet/android/components/Editor/pet_editor.dart';
+import 'package:adote_um_pet/android/components/Loading/loading_box.dart';
+import 'package:adote_um_pet/android/components/Picker/city_picker.dart';
 import 'package:adote_um_pet/android/controller/city_picker_controller.dart';
-import 'package:adote_um_pet/android/entities/user.entity.dart';
+import 'package:adote_um_pet/android/entities/user_entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
-import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
+import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
 import 'package:flutter/material.dart';
 
-import '../entities/pet-file.entity.dart';
-import '../entities/pet.entity.dart';
-import '../services/pet.service.dart';
+import '../entities/pet_file_entity.dart';
+import '../entities/pet_entity.dart';
+import '../services/pet_service.dart';
 import 'empty_pet_page.dart';
 
 class MyPetsPage extends StatefulWidget {

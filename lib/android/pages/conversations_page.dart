@@ -1,15 +1,15 @@
-import 'package:adote_um_pet/android/components/RoundedPhoto/user.photo.dart';
-import 'package:adote_um_pet/android/entities/message.entity.dart';
-import 'package:adote_um_pet/android/entities/user.entity.dart';
+import 'package:adote_um_pet/android/components/RoundedPhoto/user_photo.dart';
+import 'package:adote_um_pet/android/entities/message_entity.dart';
+import 'package:adote_um_pet/android/entities/user_entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/services/message_service.dart';
 import 'package:adote_um_pet/android/websocket/websocket_manager.dart';
 import 'package:flutter/material.dart';
 
-import 'chat.page.dart';
+import 'chat_page.dart';
 
 class ConversationsPage extends StatefulWidget {
-  const ConversationsPage();
+  const ConversationsPage({super.key});
 
   @override
   _ConversationsPageState createState() => _ConversationsPageState();
@@ -23,14 +23,12 @@ class _ConversationsPageState extends State<ConversationsPage> {
 
   @override
   void dispose() {
-    print("dispose em conversations page ");
-    if ( socketManager.isConnected()) {
+    if (socketManager.isConnected()) {
       socketManager.disconnectSocket();
     }
 
     super.dispose();
   }
-
 
   @override
   void initState() {
@@ -63,7 +61,6 @@ class _ConversationsPageState extends State<ConversationsPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,12 +69,12 @@ class _ConversationsPageState extends State<ConversationsPage> {
         itemBuilder: (context, index) {
           Message message = _messagesAndUsersMap.keys.elementAt(index);
           User senderUser =
-              _messagesAndUsersMap.values.elementAt(index).keys.elementAt(0);
+          _messagesAndUsersMap.values.elementAt(index).keys.elementAt(0);
           User recipientUser =
-              _messagesAndUsersMap.values.elementAt(index).values.elementAt(0);
+          _messagesAndUsersMap.values.elementAt(index).values.elementAt(0);
 
           Color backgroundColor =
-              backgroundColors[index % backgroundColors.length];
+          backgroundColors[index % backgroundColors.length];
 
           return Column(
             children: [
@@ -132,16 +129,16 @@ class _ConversationsPageState extends State<ConversationsPage> {
   Future<void> _openChat(User sendToUser) async {
     Navigator.of(context)
         .push(
-          MaterialPageRoute(
-            builder: (context) => ChatPage(
-              fromUser: actualUser!,
-              toUser: sendToUser,
-              onConversationUpdated: () {
-                refreshPage();
-              },
-            ),
-          ),
-        )
+      MaterialPageRoute(
+        builder: (context) => ChatPage(
+          fromUser: actualUser!,
+          toUser: sendToUser,
+          onConversationUpdated: () {
+            refreshPage();
+          },
+        ),
+      ),
+    )
         .then((value) => refreshPage());
   }
 }

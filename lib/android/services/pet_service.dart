@@ -1,10 +1,10 @@
 import 'package:adote_um_pet/android/database/database.dart';
-import 'package:adote_um_pet/android/services/pet-file.service.dart';
+import 'package:adote_um_pet/android/services/pet_file_service.dart';
 import 'package:mysql_client/mysql_client.dart';
 
-import '../entities/pet-file.entity.dart';
-import '../entities/pet.entity.dart';
-import '../entities/user.entity.dart';
+import '../entities/pet_file_entity.dart';
+import '../entities/pet_entity.dart';
+import '../entities/user_entity.dart';
 
 class PetService {
   Future<int?> addPet(Pet pet) async {

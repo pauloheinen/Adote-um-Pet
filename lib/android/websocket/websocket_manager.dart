@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/android/entities/user.entity.dart';
+import 'package:adote_um_pet/android/entities/user_entity.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -40,7 +40,6 @@ class WebSocketManager {
 
     socket.on('chat', (msg) {
       if (onReceiveMessage != null) {
-        print("mensagem recebida na conversations");
         onReceiveMessage(msg);
       }
     });
@@ -48,8 +47,6 @@ class WebSocketManager {
 
   void sendMessage(dynamic data) {
     if (socket.connected) {
-      print("sera enviado uma mensagem ");
-
       socket.emit('chat', data);
     }
   }
@@ -60,8 +57,6 @@ class WebSocketManager {
 
   void disconnectSocket() {
     if (socket.connected) {
-      print("socket desconectado");
-
       socket.disconnect();
     }
   }

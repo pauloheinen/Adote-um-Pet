@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/pet.entity.dart';
+import '../../entities/pet_entity.dart';
 
 class PetTile {
   Widget createListTile(Pet pet) {

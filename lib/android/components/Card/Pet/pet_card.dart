@@ -1,18 +1,18 @@
-import 'package:adote_um_pet/android/components/Editor/pet.editor.dart';
-import 'package:adote_um_pet/android/entities/user.entity.dart';
-import 'package:adote_um_pet/android/pages/chat.page.dart';
+import 'package:adote_um_pet/android/components/Editor/pet_editor.dart';
+import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/pages/chat_page.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
-import 'package:adote_um_pet/android/components/prompts/toast.prompt.dart';
-import 'package:adote_um_pet/android/services/pet-file.service.dart';
-import 'package:adote_um_pet/android/services/pet.service.dart';
+import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
+import 'package:adote_um_pet/android/services/pet_file_service.dart';
+import 'package:adote_um_pet/android/services/pet_service.dart';
 import 'package:cidades_estados_ibge/cidades_estados_ibge.dart';
 import 'package:flutter/material.dart';
 import 'package:infinity_page_view_astro/infinity_page_view_astro.dart';
 
-import '../../../entities/pet-file.entity.dart';
-import '../../../entities/pet.entity.dart';
-import '../../../services/user.service.dart';
-import '../../Carousel/infinity.carousel.dart';
+import '../../../entities/pet_file_entity.dart';
+import '../../../entities/pet_entity.dart';
+import '../../../services/user_service.dart';
+import '../../Carousel/infinity_carousel.dart';
 import '../../Dialog/confirmation_dialog.dart';
 
 class PetCard extends StatefulWidget {
@@ -112,7 +112,6 @@ class _PetCardState extends State<PetCard> {
                 itemBuilder: (BuildContext context) => [
                   PopupMenuItem(
                     value: 1,
-                    // apresentá o contrário do que é passado no parametro
                     enabled: widget.editable!,
                     child: const Text("Editar", style: TextStyle(fontSize: 12)),
                   ),
