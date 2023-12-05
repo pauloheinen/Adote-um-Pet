@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../components/Button/elevated_button.dart';
 import '../components/TextField/textfield_validation.dart';
-import '../controller/tab_controller.dart';
+import '../controllers/tab_controller.dart';
 import '../entities/user_entity.dart';
 import '../preferences/preferences.dart';
 import 'create_account_page.dart';

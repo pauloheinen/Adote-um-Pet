@@ -2,16 +2,15 @@ import 'package:adote_um_pet/android/components/Card/Pet/pet_card.dart';
 import 'package:adote_um_pet/android/components/Editor/pet_editor.dart';
 import 'package:adote_um_pet/android/components/Loading/loading_box.dart';
 import 'package:adote_um_pet/android/components/Picker/city_picker.dart';
-import 'package:adote_um_pet/android/controller/city_picker_controller.dart';
+import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
+import 'package:adote_um_pet/android/controllers/city_picker_controller.dart';
 import 'package:adote_um_pet/android/entities/user_entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
-import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
 import 'package:flutter/material.dart';
 
-import '../entities/pet_file_entity.dart';
 import '../entities/pet_entity.dart';
+import '../entities/pet_file_entity.dart';
 import '../services/pet_service.dart';
-import 'empty_pet_page.dart';
 
 class MyPetsPage extends StatefulWidget {
   MyPetsPage({Key? key}) : super(key: key);
@@ -24,6 +23,11 @@ class MyPetsPage extends StatefulWidget {
 
 class _MyPetsPageState extends State<MyPetsPage> {
   final Map<Pet, List<PetFile>> _map = {};
+
+  final TextEditingController _cityFilterController = TextEditingController();
+
+  String _selectedCity = "";
+  String _selectedState = "";
 
   bool _petsLoaded = false;
 
@@ -41,71 +45,83 @@ class _MyPetsPageState extends State<MyPetsPage> {
         child: _petsLoaded == false
             ? const CustomLoadingBox()
             : Scaffold(
-          backgroundColor: Colors.yellow[500],
-          body: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: _map.isEmpty
-                ? EmptyPetPage(
-              selectCityCallback: _loadPets,
-              addPetCallback: _addPet,
-            )
-                : Column(
-              children: [
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      CustomCityPicker(
-                        cityFilterController: widget
-                            .cityPickerController
-                            .cityFilterController,
-                        city: widget
-                            .cityPickerController.selectedCity,
-                        state: widget
-                            .cityPickerController.selectedState,
-                        onSelectCity: () {
-                          setState(() {
-
-                          });
-                        },
-                      ),
-                      IconButton(
-                          onPressed: _addPet,
-                          icon: const Icon(Icons.add)),
-                    ]),
-                Expanded(
-                  child: Container(
-                    padding:
-                    const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: _map.length,
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisExtent: 350,
-                          crossAxisCount: 1,
-                          mainAxisSpacing: 25,
+                backgroundColor: Colors.yellow[500],
+                body: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: _map.isEmpty
+                      ? Column(
+                          children: [
+                            CustomCityPicker(
+                                cityFilterController: _cityFilterController,
+                                city: _selectedCity,
+                                state: _selectedState,
+                                onSelectCity: () {
+                                  setState(() {});
+                                }),
+                            const Spacer(),
+                            const Center(
+                                child:
+                                    Text("Nenhum Pet disponível para adoção")),
+                            const Spacer(
+                              flex: 2,
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  CustomCityPicker(
+                                    cityFilterController: widget
+                                        .cityPickerController
+                                        .cityFilterController,
+                                    city: widget
+                                        .cityPickerController.selectedCity,
+                                    state: widget
+                                        .cityPickerController.selectedState,
+                                    onSelectCity: () {
+                                      setState(() {});
+                                    },
+                                  ),
+                                  IconButton(
+                                      onPressed: _addPet,
+                                      icon: const Icon(Icons.add)),
+                                ]),
+                            Expanded(
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                child: GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: _map.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisExtent: 350,
+                                      crossAxisCount: 1,
+                                      mainAxisSpacing: 25,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      final pet = _map.keys.toList()[index];
+                                      final files =
+                                          _map.values.elementAt(index);
+                                      return PetCard(
+                                          pet: pet,
+                                          files: files,
+                                          editable: true,
+                                          callback: () {
+                                            setState(() {
+                                              _loadPets();
+                                            });
+                                          });
+                                    }),
+                              ),
+                            ),
+                          ],
                         ),
-                        itemBuilder: (context, index) {
-                          final pet = _map.keys.toList()[index];
-                          final files =
-                          _map.values.elementAt(index);
-                          return PetCard(
-                              pet: pet,
-                              files: files,
-                              editable: true,
-                              callback: () {
-                                setState(() {
-                                  _loadPets();
-                                });
-                              });
-                        }),
-                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
@@ -140,18 +156,18 @@ class _MyPetsPageState extends State<MyPetsPage> {
     Pet pet = Pet(refOwner: user.id!, refCity: ibgeCity!);
 
     PetService().addPet(pet).then((value) => {
-      pet.id = value,
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PetEditor(
-            buildContext: context,
-            pet: pet,
-            creational: true,
-            callback: _loadPets,
-          ),
-        ),
-      )
-    });
+          pet.id = value,
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PetEditor(
+                buildContext: context,
+                pet: pet,
+                creational: true,
+                callback: _loadPets,
+              ),
+            ),
+          )
+        });
   }
 }

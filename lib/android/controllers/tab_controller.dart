@@ -4,7 +4,7 @@ import 'package:adote_um_pet/android/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/conversations_page.dart';
-import '../pages/empty_page.dart';
+import '../pages/login_page.dart';
 import '../preferences/preferences.dart';
 
 class HomePage extends StatefulWidget {

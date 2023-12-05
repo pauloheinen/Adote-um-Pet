@@ -41,3 +41,8 @@ class Pet {
     info = originalPet.info;
   }
 }
+
+class PetList {
+  final List<Pet> pets = [];
+
+}
