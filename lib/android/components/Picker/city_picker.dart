@@ -19,7 +19,7 @@ class CustomCityPicker extends StatefulWidget {
   String state = "";
   String city = "";
 
-  CustomCityPicker({
+  CustomCityPicker({super.key,
     required this.cityFilterController,
     required String state,
     required String city,

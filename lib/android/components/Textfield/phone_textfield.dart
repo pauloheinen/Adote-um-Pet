@@ -78,7 +78,7 @@ class TextFieldState {
         },
         controller: controller,
         readOnly: readOnly,
-        keyboardType: TextInputType.multiline,
+        keyboardType: TextInputType.phone,
         inputFormatters: [phoneMask],
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(8),

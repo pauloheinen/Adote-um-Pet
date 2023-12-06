@@ -5,11 +5,11 @@ import 'package:adote_um_pet/android/components/Picker/city_picker.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
 import 'package:adote_um_pet/android/controllers/city_picker_controller.dart';
 import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/helpers/pet_files_wrapper.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:flutter/material.dart';
 
 import '../entities/pet_entity.dart';
-import '../entities/pet_file_entity.dart';
 import '../services/pet_service.dart';
 
 class MyPetsPage extends StatefulWidget {
@@ -22,14 +22,9 @@ class MyPetsPage extends StatefulWidget {
 }
 
 class _MyPetsPageState extends State<MyPetsPage> {
-  final Map<Pet, List<PetFile>> _map = {};
+  final List<PetFilesWrapper> wrapper = [];
 
-  final TextEditingController _cityFilterController = TextEditingController();
-
-  String _selectedCity = "";
-  String _selectedState = "";
-
-  bool _petsLoaded = false;
+  bool petsLoaded = false;
 
   @override
   void initState() {
@@ -42,22 +37,32 @@ class _MyPetsPageState extends State<MyPetsPage> {
     return Material(
       color: Colors.yellow[500],
       child: Center(
-        child: _petsLoaded == false
+        child: petsLoaded == false
             ? const CustomLoadingBox()
             : Scaffold(
                 backgroundColor: Colors.yellow[500],
                 body: SizedBox(
                   height: MediaQuery.of(context).size.height,
-                  child: _map.isEmpty
+                  child: wrapper.isEmpty
                       ? Column(
                           children: [
-                            CustomCityPicker(
-                                cityFilterController: _cityFilterController,
-                                city: _selectedCity,
-                                state: _selectedState,
-                                onSelectCity: () {
-                                  setState(() {});
-                                }),
+                            Row(
+                              children: [
+                                CustomCityPicker(
+                                  cityFilterController: widget
+                                      .cityPickerController
+                                      .cityFilterController,
+                                  city:
+                                      widget.cityPickerController.selectedCity,
+                                  state:
+                                      widget.cityPickerController.selectedState,
+                                  onSelectCity: () => _loadPets,
+                                ),
+                                IconButton(
+                                    onPressed: _addPet,
+                                    icon: const Icon(Icons.add)),
+                              ],
+                            ),
                             const Spacer(),
                             const Center(
                                 child:
@@ -80,9 +85,7 @@ class _MyPetsPageState extends State<MyPetsPage> {
                                         .cityPickerController.selectedCity,
                                     state: widget
                                         .cityPickerController.selectedState,
-                                    onSelectCity: () {
-                                      setState(() {});
-                                    },
+                                    onSelectCity: () => _loadPets,
                                   ),
                                   IconButton(
                                       onPressed: _addPet,
@@ -95,7 +98,7 @@ class _MyPetsPageState extends State<MyPetsPage> {
                                 child: GridView.builder(
                                     shrinkWrap: true,
                                     physics: const BouncingScrollPhysics(),
-                                    itemCount: _map.length,
+                                    itemCount: wrapper.length,
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
                                       mainAxisExtent: 350,
@@ -103,18 +106,12 @@ class _MyPetsPageState extends State<MyPetsPage> {
                                       mainAxisSpacing: 25,
                                     ),
                                     itemBuilder: (context, index) {
-                                      final pet = _map.keys.toList()[index];
-                                      final files =
-                                          _map.values.elementAt(index);
                                       return PetCard(
-                                          pet: pet,
-                                          files: files,
-                                          editable: true,
-                                          callback: () {
-                                            setState(() {
-                                              _loadPets();
-                                            });
-                                          });
+                                        pet: wrapper[index].pet,
+                                        files: wrapper[index].files,
+                                        editable: true,
+                                        callback: () => _loadPets,
+                                      );
                                     }),
                               ),
                             ),
@@ -127,19 +124,26 @@ class _MyPetsPageState extends State<MyPetsPage> {
   }
 
   void _loadPets() async {
-    _map.clear();
+    wrapper.clear();
 
     int? ibgeCity = await Preferences.getIbgeCity();
 
     if (ibgeCity != null) {
       User user = await Preferences.getUserData();
 
-      _map.addAll(
-          await PetService().getPetsFilesMapByCityIdAndUser(ibgeCity, user));
+      await PetService().getPetsFilesMapByCityIdAndUser(ibgeCity, user).then(
+            (map) => {
+              map.forEach(
+                (pet, files) {
+                  wrapper.add(PetFilesWrapper(pet: pet, files: files));
+                },
+              ),
+            },
+          );
     }
 
     setState(() {
-      _petsLoaded = true;
+      petsLoaded = true;
     });
   }
 

@@ -51,7 +51,8 @@ class _AdoptPageState extends State<AdoptPage> {
                             CustomCityPicker(
                                 cityFilterController: _cityFilterController,
                                 city: _selectedCity,
-                                state: _selectedState),
+                                state: _selectedState,
+                            onSelectCity: () => _loadPets,),
                             const Spacer(),
                             const Center(
                                 child:
@@ -67,9 +68,7 @@ class _AdoptPageState extends State<AdoptPage> {
                               cityFilterController: _cityFilterController,
                               state: _selectedState,
                               city: _selectedCity,
-                              onSelectCity: () {
-                                setState(() {});
-                              },
+                              onSelectCity: () => _loadPets,
                             ),
                             Expanded(
                               child: Container(
