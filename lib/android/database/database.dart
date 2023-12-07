@@ -29,7 +29,7 @@ class Database {
 
     if (!_conn!.connected) {
       _conn = await _createConnection();
-      await _conn!.connect();
+      await _conn!.connect(timeoutMs: 10000);
     }
 
     return _conn!;

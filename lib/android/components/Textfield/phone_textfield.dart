@@ -11,7 +11,7 @@ class CustomPhoneTextField extends StatelessWidget {
       type: MaskAutoCompletionType.lazy);
   bool readOnly;
 
-  CustomPhoneTextField({
+  CustomPhoneTextField({super.key,
     this.readOnly = false,
   });
 
@@ -33,7 +33,7 @@ class CustomPhoneTextField extends StatelessWidget {
         },
         controller: controller,
         readOnly: readOnly,
-        keyboardType: TextInputType.multiline,
+        keyboardType: TextInputType.phone,
         inputFormatters: [phoneMask],
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -54,52 +54,3 @@ class CustomPhoneTextField extends StatelessWidget {
   }
 }
 
-class TextFieldState {
-  TextEditingController controller;
-  MaskTextInputFormatter phoneMask;
-  bool readOnly;
-
-  TextFieldState({
-    required this.controller,
-    required this.phoneMask,
-    required this.readOnly,
-  });
-
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-      child: TextFormField(
-        style: const TextStyle(color: Colors.black87),
-        validator: (value) {
-          if (value == null || value.isEmpty || controller.text.isEmpty) {
-            return 'O campo deve ser preenchido!';
-          }
-          return null;
-        },
-        controller: controller,
-        readOnly: readOnly,
-        keyboardType: TextInputType.phone,
-        inputFormatters: [phoneMask],
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(8),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          enabledBorder: CustomOutlineBorder.buildCustomBorder(),
-          focusedBorder: CustomOutlineBorder.buildCustomBorder(),
-          focusedErrorBorder: CustomOutlineBorder.buildCustomBorder(),
-          errorBorder: CustomOutlineBorder.buildCustomBorder(),
-          errorStyle: const TextStyle(color: Colors.black87),
-          label: const Text(
-            "Telefone",
-            style: TextStyle(color: Colors.black87, fontSize: 20),
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ),
-    );
-  }
-
-  getUnmaskedText() {
-    return phoneMask.getUnmaskedText();
-  }
-}

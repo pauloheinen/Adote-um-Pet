@@ -2,7 +2,7 @@
     package="com.ps.adoteumpet.adote_um_pet">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="adote_um_pet"
+        android:label="Adote um Pet"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

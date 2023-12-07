@@ -49,7 +49,7 @@ class UserService {
     }
 
     IResultSet results =
-    await Database.getInstance().query(sql, [email, hashedPassword]);
+        await Database.getInstance().query(sql, [email, hashedPassword]);
 
     if (results.rows.firstOrNull == null) {
       return null;
