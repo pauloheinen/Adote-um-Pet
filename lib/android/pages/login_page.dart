@@ -142,14 +142,13 @@ class _LoginPageState extends State<LoginPage> {
     
     else
       {
+        await dotenv.load(fileName: "env.env");
+
         Toast.warningToast(context, "executando produção");
 
         Toast.informToast(context, String.fromEnvironment("host") );
-        Toast.informToast(context, String.fromEnvironment("databaseName") );
-
-        dotenv.get("host");
-
-    }
+        Toast.warningToast(context, dotenv.get("host"));
+      }
     
 
     
