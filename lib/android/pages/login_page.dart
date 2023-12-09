@@ -147,8 +147,11 @@ class _LoginPageState extends State<LoginPage> {
         Toast.warningToast(context, "executando produção");
 
         Toast.informToast(context, String.fromEnvironment("host") );
-        Toast.warningToast(context, dotenv.get("host"));
+        Toast.informToast(context, String.fromEnvironment("\$host") );
         Toast.errorToast(context, String.fromEnvironment("CM_ENV"));
+        Toast.errorToast(context, String.fromEnvironment("\$CM_ENV"));
+        Toast.warningToast(context, dotenv.get("host"));
+
       }
     
 
