@@ -2,6 +2,7 @@ import 'package:adote_um_pet/android/components/Container/container_theme.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
 import 'package:adote_um_pet/android/database/database.dart';
 import 'package:adote_um_pet/android/services/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mysql_client/mysql_client.dart';
@@ -116,25 +117,38 @@ class _LoginPageState extends State<LoginPage> {
 
   _doLogin() async {
 
-    await dotenv.load(fileName: "env.env");
+    if (kDebugMode)
+      {
+        await dotenv.load(fileName: "env.env");
 
-    Toast.warningToast(context, dotenv.get("host"));
-    Toast.warningToast(context, dotenv.get("port"));
-    Toast.warningToast(context, dotenv.get("userName"));
-    Toast.warningToast(context, dotenv.get("password"));
-    Toast.warningToast(context, dotenv.get("databaseName"));
-    Toast.warningToast(context, dotenv.get("secure"));
+        Toast.warningToast(context, dotenv.get("host"));
+        Toast.warningToast(context, dotenv.get("port"));
+        Toast.warningToast(context, dotenv.get("userName"));
+        Toast.warningToast(context, dotenv.get("password"));
+        Toast.warningToast(context, dotenv.get("databaseName"));
+        Toast.warningToast(context, dotenv.get("secure"));
 
-    MySQLConnection conn = await MySQLConnection.createConnection(
-        host: dotenv.get("host"),
-        collation: dotenv.get("collation"),
-        port: int.parse(dotenv.get("port")),
-        userName: dotenv.get("userName"),
-        password: dotenv.get("password"),
-        databaseName: dotenv.get("databaseName"),
-        secure: bool.parse(dotenv.get("secure")));
+        MySQLConnection conn = await MySQLConnection.createConnection(
+            host: dotenv.get("host"),
+            collation: dotenv.get("collation"),
+            port: int.parse(dotenv.get("port")),
+            userName: dotenv.get("userName"),
+            password: dotenv.get("password"),
+            databaseName: dotenv.get("databaseName"),
+            secure: bool.parse(dotenv.get("secure")));
 
-    Toast.informToast(context, conn.connected.toString());
+        Toast.informToast(context, conn.connected.toString());    
+      }
+    
+    else
+      {
+        Toast.warningToast(context, "executando produção");
+        
+        Toast.informToast(context, )
+      }
+    
+
+    
     return;
     if (!_formKey.currentState!.validate()) {
       return;
