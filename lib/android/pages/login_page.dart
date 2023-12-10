@@ -2,6 +2,8 @@ import 'package:adote_um_pet/android/components/Container/container_theme.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
 import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mysql_client/mysql_client.dart';
 
 import '../components/Button/elevated_button.dart';
 import '../components/TextField/textfield_validation.dart';
@@ -112,6 +114,19 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _doLogin() async {
+
+    await dotenv.load(fileName: "env.env");
+
+
+        Toast.errorToast(context, dotenv.get("host"));
+            Toast.errorToast(context, dotenv.get("collation"));
+            Toast.errorToast(context, dotenv.get("port"));
+    Toast.errorToast(context, dotenv.get("userName"));
+    Toast.errorToast(context, dotenv.get("password"));
+    Toast.errorToast(context, dotenv.get("databaseName"));
+    Toast.errorToast(context, dotenv.get("secure"));
+      return;
+
     if (!_formKey.currentState!.validate()) {
       return;
     }
