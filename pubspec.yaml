@@ -45,4 +45,3 @@ flutter:
 
   assets:
     - lib/resources/
-    - env.env
