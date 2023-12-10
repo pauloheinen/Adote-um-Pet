@@ -114,19 +114,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _doLogin() async {
-
-    await dotenv.load(fileName: "env.env");
-
-
-        Toast.errorToast(context, dotenv.get("host"));
-            Toast.errorToast(context, dotenv.get("collation"));
-            Toast.errorToast(context, dotenv.get("port"));
-    Toast.errorToast(context, dotenv.get("userName"));
-    Toast.errorToast(context, dotenv.get("password"));
-    Toast.errorToast(context, dotenv.get("databaseName"));
-    Toast.errorToast(context, dotenv.get("secure"));
-      return;
-
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -135,12 +122,7 @@ class _LoginPageState extends State<LoginPage> {
     String password = passwordController.text;
 
     User? user;
-    try {
-      user = await UserService().getUser(email, password);
-    } on Exception catch (exception) {
-      Toast.warningToast(context, "Não foi possível conectar ao serviço");
-      return;
-    }
+    user = await UserService().getUser(email, password);
 
     if (user == null) {
       Toast.warningToast(context, "Usuário não encontrado");
