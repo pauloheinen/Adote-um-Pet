@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
 import 'package:adote_um_pet/android/services/user_file_service.dart';
 import 'package:flutter/material.dart';
 import '../../utilities/File/file_util.dart';

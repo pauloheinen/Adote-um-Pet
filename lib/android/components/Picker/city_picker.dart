@@ -2,6 +2,7 @@ import 'package:adote_um_pet/android/components/Border/UnderlineBorder/underline
 import 'package:adote_um_pet/android/components/Button/elevated_button.dart';
 import 'package:adote_um_pet/android/components/Dropdown/dropdown_button.dart';
 import 'package:adote_um_pet/android/components/TextField/textfield.dart';
+import 'package:adote_um_pet/android/logic/cubit/pets/pet_cubit.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:cidades_estados_ibge/cidades_estados_ibge.dart';
 import 'package:cidades_estados_ibge/models/cidade_model.dart';
@@ -10,7 +11,7 @@ import 'package:remove_diacritic/remove_diacritic.dart';
 
 class CustomCityPicker extends StatefulWidget {
   TextEditingController cityFilterController;
-  final Function()? onSelectCity;
+  PetCubit petCubit;
 
   String sampleText = "Filtre uma cidade";
   final List<String> states = [];
@@ -19,11 +20,12 @@ class CustomCityPicker extends StatefulWidget {
   String state = "";
   String city = "";
 
-  CustomCityPicker({super.key,
+  CustomCityPicker({
+    super.key,
     required this.cityFilterController,
     required String state,
     required String city,
-    this.onSelectCity,
+    required this.petCubit,
   });
 
   @override
@@ -37,12 +39,6 @@ class _CustomCityPickerState extends State<CustomCityPicker> {
   void initState() {
     _loadCitySelected();
     super.initState();
-  }
-
-  void click() {
-    if (widget.onSelectCity != null) {
-      widget.onSelectCity?.call();
-    }
   }
 
   @override
@@ -137,11 +133,13 @@ class _CustomCityPickerState extends State<CustomCityPicker> {
                   ),
                   CustomElevatedButton(
                     label: "Confirmar",
-                    onClick: () {
+                    onClick: () async {
                       widget.cities.clear();
                       setCityName();
-                      click();
-                      Navigator.of(context).pop();
+                      await widget.petCubit.getPets().then((value) => {
+                        Navigator.of(context).pop()
+                      });
+
                     },
                   ),
                 ],
@@ -155,7 +153,7 @@ class _CustomCityPickerState extends State<CustomCityPicker> {
         widget.city = "";
         widget.state = "";
         widget.cities.clear();
-        click();
+        await widget.petCubit.getPets();
       }
     });
   }

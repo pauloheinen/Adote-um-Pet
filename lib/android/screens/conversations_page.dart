@@ -1,6 +1,6 @@
 import 'package:adote_um_pet/android/components/RoundedPhoto/user_photo.dart';
-import 'package:adote_um_pet/android/entities/message_entity.dart';
-import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/models/message_entity.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/services/message_service.dart';
 import 'package:adote_um_pet/android/websocket/websocket_manager.dart';

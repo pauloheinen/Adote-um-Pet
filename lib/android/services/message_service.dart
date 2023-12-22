@@ -1,9 +1,9 @@
-import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
 import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 import '../database/database.dart';
-import '../entities/message_entity.dart';
+import '../models/message_entity.dart';
 import '../utilities/Uuid/uuid_utils.dart';
 
 class MessageService {
@@ -47,10 +47,10 @@ class MessageService {
                   select m.*
                   from messages m
                   where 
-                  id = ( select MAX(id) from messages where sender_id = ?
-                  or recipient_id = ? )
-                  and ( sender_id = ? or recipient_id = ? )
-                  group by uuid""";
+                  m.id = ( select MAX(m2.id) from messages m2 where m2.sender_id = ?
+                  or m2.recipient_id = ? )
+                  and ( m.sender_id = ? or m.recipient_id = ? )
+                  group by m.uuid""";
 
     IResultSet results =
     await Database.getInstance().query(sql, [user.id, user.id, user.id, user.id]);

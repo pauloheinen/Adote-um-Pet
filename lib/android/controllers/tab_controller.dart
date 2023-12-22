@@ -1,10 +1,9 @@
-import 'package:adote_um_pet/android/pages/adopt_page.dart';
-import 'package:adote_um_pet/android/pages/my_pets_page.dart';
-import 'package:adote_um_pet/android/pages/profile_page.dart';
+import 'package:adote_um_pet/android/screens/pets_page.dart';
+import 'package:adote_um_pet/android/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/conversations_page.dart';
-import '../pages/login_page.dart';
+import '../screens/conversations_page.dart';
+import '../screens/login_page.dart';
 import '../preferences/preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,8 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _views = [
     const ProfilePage(),
-    MyPetsPage(),
-    const AdoptPage(),
+    PetsPage(),
     const ConversationsPage(),
   ];
 
@@ -54,9 +52,7 @@ class _HomePageState extends State<HomePage> {
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.person), label: "Meu perfil"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.line_weight_sharp), label: "Meus Pets"),
-          BottomNavigationBarItem(icon: Icon(Icons.pets), label: "Adoções"),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: "Pets"),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat")
         ],
       ),

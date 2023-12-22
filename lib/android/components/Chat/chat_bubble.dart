@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 
-import '../../entities/message_entity.dart';
-import '../../entities/user_entity.dart';
+import '../../models/message_entity.dart';
+import '../../models/user_entity.dart';
 
 class BubbleChat extends StatelessWidget {
   final User fromUser;

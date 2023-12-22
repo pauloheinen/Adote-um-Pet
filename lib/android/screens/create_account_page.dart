@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../components/Button/elevated_button.dart';
 import '../components/TextField/textfield_validation.dart';
-import '../entities/user_entity.dart';
+import '../models/user_entity.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);

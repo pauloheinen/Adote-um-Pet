@@ -4,6 +4,10 @@ class Pet {
   final int refOwner;
   final int refCity;
   String? info;
+  // circunstancia - encontrado / próprio
+  // vacinado - sim nao
+  // tipo - felino, ave, reptil, dog
+  // registro - data
 
   Pet({
     this.id,

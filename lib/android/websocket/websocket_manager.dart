@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 

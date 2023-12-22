@@ -3,8 +3,8 @@ import 'package:adote_um_pet/android/components/Carousel/infinity_carousel.dart'
 import 'package:adote_um_pet/android/components/Picker/image_picker.dart';
 import 'package:adote_um_pet/android/components/TextField/textfield_validation.dart';
 import 'package:adote_um_pet/android/components/TextField/textfield.dart';
-import 'package:adote_um_pet/android/entities/pet_file_entity.dart';
-import 'package:adote_um_pet/android/entities/pet_entity.dart';
+import 'package:adote_um_pet/android/models/pet_file_entity.dart';
+import 'package:adote_um_pet/android/models/pet_entity.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
 import 'package:adote_um_pet/android/services/pet_file_service.dart';
 import 'package:adote_um_pet/android/services/pet_service.dart';

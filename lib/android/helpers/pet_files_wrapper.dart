@@ -1,5 +1,5 @@
-import 'package:adote_um_pet/android/entities/pet_entity.dart';
-import 'package:adote_um_pet/android/entities/pet_file_entity.dart';
+import 'package:adote_um_pet/android/models/pet_entity.dart';
+import 'package:adote_um_pet/android/models/pet_file_entity.dart';
 
 class PetFilesWrapper {
   Pet pet;

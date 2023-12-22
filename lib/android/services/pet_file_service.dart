@@ -1,8 +1,8 @@
 import 'package:mysql_client/mysql_client.dart';
 
 import '../database/database.dart';
-import '../entities/pet_file_entity.dart';
-import '../entities/pet_entity.dart';
+import '../models/pet_file_entity.dart';
+import '../models/pet_entity.dart';
 
 class PetFileService {
   Future<int?> addFile(PetFile file) async {

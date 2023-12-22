@@ -1,19 +1,17 @@
-import 'package:adote_um_pet/android/pages/adopt_page.dart';
-import 'package:adote_um_pet/android/pages/conversations_page.dart';
-import 'package:adote_um_pet/android/pages/create_account_page.dart';
-import 'package:adote_um_pet/android/pages/login_page.dart';
-import 'package:adote_um_pet/android/pages/my_pets_page.dart';
-import 'package:adote_um_pet/android/pages/profile_page.dart';
+import 'package:adote_um_pet/android/screens/conversations_page.dart';
+import 'package:adote_um_pet/android/screens/create_account_page.dart';
+import 'package:adote_um_pet/android/screens/login_page.dart';
+import 'package:adote_um_pet/android/screens/pets_page.dart';
+import 'package:adote_um_pet/android/screens/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 
 class Routes {
   static Map<String, Widget Function(BuildContext)> list =
   <String, WidgetBuilder>{
-    '/adopt': (_) => const AdoptPage(),
     '/conversation': (_) => const ConversationsPage(),
     '/createAccount': (_) => const CreateAccountPage(),
     '/loginPage': (_) => const LoginPage(),
-    '/myPets': (_) => MyPetsPage(),
+    '/pets': (_) => PetsPage(),
     '/profile': (_) => const ProfilePage(),
   };
 

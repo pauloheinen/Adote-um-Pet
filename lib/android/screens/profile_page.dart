@@ -5,7 +5,7 @@ import 'package:adote_um_pet/android/components/Button/elevated_button.dart';
 import 'package:adote_um_pet/android/components/Container/container_theme.dart';
 import 'package:adote_um_pet/android/components/Loading/loading_box.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
-import 'package:adote_um_pet/android/entities/user_entity.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:flutter/material.dart';

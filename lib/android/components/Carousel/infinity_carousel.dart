@@ -1,8 +1,8 @@
-import 'package:adote_um_pet/android/entities/pet_entity.dart';
+import 'package:adote_um_pet/android/models/pet_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:infinity_page_view_astro/infinity_page_view_astro.dart';
 
-import '../../entities/pet_file_entity.dart';
+import '../../models/pet_file_entity.dart';
 import '../../utilities/File/file_util.dart';
 
 class CustomInfinityCarousel extends StatefulWidget {

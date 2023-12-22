@@ -8,7 +8,7 @@ import 'package:mysql_client/mysql_client.dart';
 import '../components/Button/elevated_button.dart';
 import '../components/TextField/textfield_validation.dart';
 import '../controllers/tab_controller.dart';
-import '../entities/user_entity.dart';
+import '../models/user_entity.dart';
 import '../preferences/preferences.dart';
 import 'create_account_page.dart';
 
