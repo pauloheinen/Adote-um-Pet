@@ -1,11 +1,16 @@
 import 'package:adote_um_pet/android/components/Card/Pet/pet_card.dart';
 import 'package:adote_um_pet/android/components/Loading/loading_box.dart';
 import 'package:adote_um_pet/android/components/Picker/city_picker.dart';
+import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
 import 'package:adote_um_pet/android/controllers/city_picker_controller.dart';
 import 'package:adote_um_pet/android/helpers/pet_files_wrapper.dart';
 import 'package:adote_um_pet/android/logic/cubit/pets/pet_cubit.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
+import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../models/pet_entity.dart';
 
 class PetsPage extends StatefulWidget {
   PetsPage({Key? key}) : super(key: key);
@@ -60,7 +65,7 @@ class _PetsPageState extends State<PetsPage> {
           children: [
             CustomCityPicker(
               cityFilterController:
-                  widget.cityPickerController.cityFilterController,
+              widget.cityPickerController.cityFilterController,
               city: widget.cityPickerController.selectedCity,
               state: widget.cityPickerController.selectedState,
               petCubit: petCubit,
@@ -87,16 +92,14 @@ class _PetsPageState extends State<PetsPage> {
         Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
           CustomCityPicker(
             cityFilterController:
-                widget.cityPickerController.cityFilterController,
+            widget.cityPickerController.cityFilterController,
             city: widget.cityPickerController.selectedCity,
             state: widget.cityPickerController.selectedState,
             petCubit: petCubit,
           ),
-          IconButton(
-              onPressed: () {
-                petCubit.addPets(context: context);
-              },
-              icon: const Icon(Icons.add)),
+          IconButton(onPressed: () {
+            petCubit.addPets(context: context);
+          }, icon: const Icon(Icons.add)),
         ]),
         Expanded(
           child: Container(
