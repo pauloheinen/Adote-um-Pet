@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:adote_um_pet/android/components/Editor/pet_editor.dart';
 import 'package:adote_um_pet/android/helpers/pet_files_wrapper.dart';
+import 'package:adote_um_pet/android/models/pet_entity.dart';
 import 'package:adote_um_pet/android/models/user_entity.dart';
 import 'package:adote_um_pet/android/preferences/preferences.dart';
 import 'package:adote_um_pet/android/services/pet_service.dart';
@@ -18,32 +19,6 @@ class PetCubit extends Cubit<PetStates> {
   final List<PetFilesWrapper> _pets = [];
 
   List<PetFilesWrapper> get pets => _pets;
-
-  Future<void> addPets(
-      {required BuildContext context, required PetFilesWrapper wrapper}) async {
-    emit(PetLoading());
-
-    try {
-      int? petId = await PetService().addPet(wrapper.pet);
-      wrapper.pet.id = petId;
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PetEditor(
-            buildContext: context,
-            pet: wrapper.pet,
-            creational: true,
-            callback: () {
-              emit(PetSuccess(_pets));
-            },
-          ),
-        ),
-      );
-    } catch (error) {
-      emit(PetError('Failed to add pet'));
-    }
-  }
 
   Future<void> getPets() async {
     emit(PetLoading());
@@ -63,6 +38,36 @@ class PetCubit extends Cubit<PetStates> {
       }
     } catch (e) {
       emit(PetError('Não foi possível carregar a lista de pets!'));
+    }
+  }
+
+  Future<void> addPets({required BuildContext context}) async {
+    try {
+      int? ibgeCity = await Preferences.getIbgeCity();
+
+      User user = await Preferences.getUserData();
+
+      Pet pet = Pet(refOwner: user.id!, refCity: ibgeCity!);
+      pet.id = await PetService().addPet(pet);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PetEditor(
+            buildContext: context,
+            pet: pet,
+            creational: true,
+            callback: () {
+              emit(PetSuccess(_pets));
+            },
+          ),
+        ),
+      ).then((value) => {
+        print("editor fechado, começará a ler os pets"),
+        getPets(),
+      });
+    } catch (error) {
+      emit(PetError('Não foi possível adicionar o Pet'));
     }
   }
 }
