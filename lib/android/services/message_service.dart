@@ -4,7 +4,7 @@ import 'package:mysql_client/mysql_client.dart';
 
 import '../database/database.dart';
 import '../models/message_entity.dart';
-import '../utilities/Uuid/uuid_utils.dart';
+import '../utilities/uuid_utils.dart';
 
 class MessageService {
   Future<int?> addMessage(Message message) async {

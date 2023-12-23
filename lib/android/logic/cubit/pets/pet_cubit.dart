@@ -48,23 +48,23 @@ class PetCubit extends Cubit<PetStates> {
       User user = await Preferences.getUserData();
 
       Pet pet = Pet(refOwner: user.id!, refCity: ibgeCity!);
-      pet.id = await PetService().addPet(pet);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PetEditor(
-            buildContext: context,
-            pet: pet,
-            creational: true,
-            callback: () {
-              emit(PetSuccess(_pets));
-            },
+      await PetService().addPet(pet).then((petId) => {
+        pet.id = petId,
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PetEditor(
+              buildContext: context,
+              pet: pet,
+              creational: true,
+              callback: () {
+                emit(PetSuccess(_pets));
+              },
+            ),
           ),
-        ),
-      ).then((value) => {
-        print("editor fechado, começará a ler os pets"),
-        getPets(),
+        ).then((value) => {
+          getPets(),
+        })
       });
     } catch (error) {
       emit(PetError('Não foi possível adicionar o Pet'));

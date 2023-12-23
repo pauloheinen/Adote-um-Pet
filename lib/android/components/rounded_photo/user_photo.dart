@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:adote_um_pet/android/models/user_entity.dart';
 import 'package:adote_um_pet/android/services/user_file_service.dart';
 import 'package:flutter/material.dart';
-import '../../utilities/File/file_util.dart';
+import '../../utilities/file_util.dart';
 
 class CustomUserPhoto extends StatefulWidget {
   final User user;

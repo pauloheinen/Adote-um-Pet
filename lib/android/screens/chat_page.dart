@@ -1,13 +1,13 @@
 import 'package:adote_um_pet/android/components/Chat/chat_input_bar.dart';
 import 'package:adote_um_pet/android/models/message_entity.dart';
 import 'package:adote_um_pet/android/services/message_service.dart';
-import 'package:adote_um_pet/android/utilities/Uuid/uuid_utils.dart';
+import 'package:adote_um_pet/android/utilities/uuid_utils.dart';
 import 'package:adote_um_pet/android/websocket/websocket_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../components/Chat/chat_message_list.dart';
-import '../components/RoundedPhoto/user_photo.dart';
+import '../components/rounded_photo/user_photo.dart';
 import '../models/user_entity.dart';
 
 class ChatPage extends StatefulWidget {

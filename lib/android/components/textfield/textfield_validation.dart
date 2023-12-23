@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/android/components/Border/OutlineInputBorder/outline_border.dart';
+import 'package:adote_um_pet/android/components/border/outline_input_border/outline_border.dart';
 import 'package:flutter/material.dart';
 
 class CustomValidateTextField extends StatefulWidget {

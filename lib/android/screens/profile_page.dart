@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../components/RoundedPhoto/user_photo.dart';
+import '../components/rounded_photo/user_photo.dart';
 import '../components/TextField/textfield_validation.dart';
 import '../components/TextField/textfield.dart';
 import '../utilities/password.dart';

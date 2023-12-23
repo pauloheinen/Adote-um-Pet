@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import '../utilities/File/file_util.dart';
+import '../utilities/file_util.dart';
 import 'user_entity.dart';
 
 class UserFile {

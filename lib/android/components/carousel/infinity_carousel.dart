@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:infinity_page_view_astro/infinity_page_view_astro.dart';
 
 import '../../models/pet_file_entity.dart';
-import '../../utilities/File/file_util.dart';
+import '../../utilities/file_util.dart';
 
 class CustomInfinityCarousel extends StatefulWidget {
   Pet pet;

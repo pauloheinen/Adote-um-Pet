@@ -1,5 +1,5 @@
 import 'package:adote_um_pet/android/models/user_file_entity.dart';
-import 'package:adote_um_pet/android/utilities/File/file_util.dart';
+import 'package:adote_um_pet/android/utilities/file_util.dart';
 import 'package:mysql_client/mysql_client.dart';
 
 import '../database/database.dart';
