@@ -1,16 +1,15 @@
 import 'package:adote_um_pet/android/components/Container/container_theme.dart';
+import 'package:adote_um_pet/android/components/button/elevated_button.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
+import 'package:adote_um_pet/android/components/textField/textfield_validation.dart';
+import 'package:adote_um_pet/android/controllers/tab_controller.dart';
+import 'package:adote_um_pet/android/logic/cubit/pets/pet_cubit.dart';
+import 'package:adote_um_pet/android/logic/cubit/user/user_cubit.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
+import 'package:adote_um_pet/android/preferences/preferences.dart';
+import 'package:adote_um_pet/android/screens/create_account_page.dart';
 import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mysql_client/mysql_client.dart';
-
-import '../components/Button/elevated_button.dart';
-import '../components/TextField/textfield_validation.dart';
-import '../controllers/tab_controller.dart';
-import '../models/user_entity.dart';
-import '../preferences/preferences.dart';
-import 'create_account_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -20,8 +19,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final UserCubit userCubit = UserCubit();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -29,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    super.initState();
     _autoLogin();
+    super.initState();
   }
 
   @override
@@ -60,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
                     child: CustomValidateTextField(
                       label: "Email",
-                      controller: emailController,
+                      controller: userCubit.mailController,
                       shouldValidate: true,
                     ),
                   ),
@@ -68,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
                     child: CustomValidateTextField(
                       label: "Senha",
-                      controller: passwordController,
+                      controller: userCubit.passwordController,
                       shouldValidate: true,
                       obscure: true,
                     ),
@@ -79,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                     value: _rememberMe,
                     checkColor: Colors.black87,
                     activeColor: Colors.transparent,
-                    title: const Text("Lembrar de mim",
+                    title: const Text('Lembrar de mim',
                         style: TextStyle(color: Colors.black87, fontSize: 16),
                         textAlign: TextAlign.start),
                     onChanged: (value) {
@@ -90,19 +88,14 @@ class _LoginPageState extends State<LoginPage> {
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child:
-                        CustomElevatedButton(label: "Login", onClick: _doLogin),
+                    CustomElevatedButton(label: "Login", onClick: _doLogin),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        child: const Text(
-                          'Criar conta',
-                          style: TextStyle(fontSize: 20, color: Colors.green),
-                        ),
-                        onPressed: () => _createAccount(),
-                      ),
-                    ],
+                  TextButton(
+                    child: const Text(
+                      'Criar conta',
+                      style: TextStyle(fontSize: 20, color: Colors.green),
+                    ),
+                    onPressed: () => _createAccount(),
                   ),
                 ],
               ),
@@ -118,14 +111,14 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    String email = emailController.text;
-    String password = passwordController.text;
+    String email = userCubit.mailController.text;
+    String password = userCubit.passwordController.text;
 
     User? user;
     user = await UserService().getUser(email, password);
 
     if (user == null) {
-      Toast.warningToast(context, "Usuário não encontrado");
+      Toast.warningToast(context, 'Usuário não encontrado');
       return;
     }
 
@@ -151,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _createAccount() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const CreateAccountPage()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => CreateAccountPage()));
   }
 }

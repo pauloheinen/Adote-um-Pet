@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomElevatedButton extends StatefulWidget {
+class CustomElevatedButton extends StatefulWidget { // TODO refactor maybe?
   final String label;
   final double? labelSize;
   final Function()? onClick;

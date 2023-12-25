@@ -3,13 +3,13 @@ import 'package:adote_um_pet/android/screens/create_account_page.dart';
 import 'package:adote_um_pet/android/screens/login_page.dart';
 import 'package:adote_um_pet/android/screens/pets_page.dart';
 import 'package:adote_um_pet/android/screens/profile_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Routes {
   static Map<String, Widget Function(BuildContext)> list =
   <String, WidgetBuilder>{
     '/conversation': (_) => const ConversationsPage(),
-    '/createAccount': (_) => const CreateAccountPage(),
+    '/createAccount': (_) => CreateAccountPage(),
     '/loginPage': (_) => const LoginPage(),
     '/pets': (_) => PetsPage(),
     '/profile': (_) => const ProfilePage(),

@@ -1,8 +1,8 @@
-import 'package:adote_um_pet/android/components/Button/elevated_button.dart';
-import 'package:adote_um_pet/android/components/Carousel/infinity_carousel.dart';
-import 'package:adote_um_pet/android/components/Picker/image_picker.dart';
-import 'package:adote_um_pet/android/components/TextField/textfield_validation.dart';
-import 'package:adote_um_pet/android/components/TextField/textfield.dart';
+import 'package:adote_um_pet/android/components/button/elevated_button.dart';
+import 'package:adote_um_pet/android/components/carousel/infinity_carousel.dart';
+import 'package:adote_um_pet/android/components/picker/image_picker.dart';
+import 'package:adote_um_pet/android/components/textField/textfield_validation.dart';
+import 'package:adote_um_pet/android/components/textField/textfield.dart';
 import 'package:adote_um_pet/android/models/pet_file_entity.dart';
 import 'package:adote_um_pet/android/models/pet_entity.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
@@ -13,7 +13,7 @@ import 'package:cidades_estados_ibge/models/cidade_model.dart';
 import 'package:flutter/material.dart';
 import 'package:infinity_page_view_astro/infinity_page_view_astro.dart';
 
-class PetEditor extends StatefulWidget {
+class PetEditor extends StatefulWidget { // TODO refactor maybe?
   final BuildContext buildContext;
   final Pet pet;
   final bool creational;

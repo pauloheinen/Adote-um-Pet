@@ -1,27 +1,26 @@
-import 'package:adote_um_pet/android/components/Editor/pet_editor.dart';
-import 'package:adote_um_pet/android/models/user_entity.dart';
-import 'package:adote_um_pet/android/screens/chat_page.dart';
-import 'package:adote_um_pet/android/preferences/preferences.dart';
+import 'package:adote_um_pet/android/components/carousel/infinity_carousel.dart';
+import 'package:adote_um_pet/android/components/dialog/confirmation_dialog.dart';
+import 'package:adote_um_pet/android/components/editor/pet_editor.dart';
 import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
+import 'package:adote_um_pet/android/models/pet_entity.dart';
+import 'package:adote_um_pet/android/models/pet_file_entity.dart';
+import 'package:adote_um_pet/android/models/user_entity.dart';
+import 'package:adote_um_pet/android/preferences/preferences.dart';
+import 'package:adote_um_pet/android/screens/chat_page.dart';
 import 'package:adote_um_pet/android/services/pet_file_service.dart';
 import 'package:adote_um_pet/android/services/pet_service.dart';
+import 'package:adote_um_pet/android/services/user_service.dart';
 import 'package:cidades_estados_ibge/cidades_estados_ibge.dart';
 import 'package:flutter/material.dart';
 import 'package:infinity_page_view_astro/infinity_page_view_astro.dart';
 
-import '../../../models/pet_file_entity.dart';
-import '../../../models/pet_entity.dart';
-import '../../../services/user_service.dart';
-import '../../Carousel/infinity_carousel.dart';
-import '../../Dialog/confirmation_dialog.dart';
-
 class PetCard extends StatefulWidget {
   final Pet pet;
   final List<PetFile> files;
-  bool? editable;
+  final bool? editable;
   final VoidCallback? callback;
 
-  PetCard({
+  const PetCard({
     Key? key,
     required this.pet,
     required this.files,
@@ -112,19 +111,18 @@ class _PetCardState extends State<PetCard> {
                 itemBuilder: (BuildContext context) => [
                   PopupMenuItem(
                     value: 1,
-                    enabled: widget.editable!,
+                    enabled: widget.editable! && widget.pet.refOwner == actualUser!.id,
                     child: const Text("Editar", style: TextStyle(fontSize: 12)),
                   ),
                   PopupMenuItem(
                     value: 2,
-                    enabled: widget.editable!,
+                    enabled: widget.editable! && widget.pet.refOwner == actualUser!.id,
                     child:
                     const Text("Deletar", style: TextStyle(fontSize: 12)),
                   ),
                   PopupMenuItem(
                     value: 3,
-                    enabled: (!widget.editable! &&
-                        widget.pet.refOwner != actualUser!.id),
+                    enabled: (widget.editable! && widget.pet.refOwner != actualUser!.id),
                     child: const Text("Abrir chat",
                         style: TextStyle(fontSize: 12)),
                   ),
@@ -146,7 +144,7 @@ class _PetCardState extends State<PetCard> {
   }
 
   Future<String> _getRefOwnerName() async {
-    return ownerPet!.name!;
+    return ownerPet!.name;
   }
 
   String _displayInfo() {

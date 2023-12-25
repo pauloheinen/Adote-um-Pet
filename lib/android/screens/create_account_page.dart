@@ -1,27 +1,15 @@
-import 'package:adote_um_pet/android/components/Container/container_theme.dart';
-import 'package:adote_um_pet/android/components/TextField/phone_textfield.dart';
-import 'package:adote_um_pet/android/components/prompts/toast_prompt.dart';
-import 'package:adote_um_pet/android/services/user_service.dart';
+import 'package:adote_um_pet/android/components/button/elevated_button.dart';
+import 'package:adote_um_pet/android/components/container/container_theme.dart';
+import 'package:adote_um_pet/android/components/textField/textfield_validation.dart';
+import 'package:adote_um_pet/android/logic/cubit/user/user_cubit.dart';
 import 'package:flutter/material.dart';
 
-import '../components/Button/elevated_button.dart';
-import '../components/TextField/textfield_validation.dart';
-import '../models/user_entity.dart';
-
-class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({Key? key}) : super(key: key);
-
-  @override
-  State<CreateAccountPage> createState() => _CreateAccountPaneState();
-}
-
-class _CreateAccountPaneState extends State<CreateAccountPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  CustomPhoneTextField phoneTextField = CustomPhoneTextField();
+class CreateAccountPage extends StatelessWidget {
+  final UserCubit userCubit = UserCubit();
 
   final _formKey = GlobalKey<FormState>();
+
+  CreateAccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +33,14 @@ class _CreateAccountPaneState extends State<CreateAccountPage> {
                   padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
                   child: CustomValidateTextField(
                       label: "Nome",
-                      controller: nameController,
+                      controller: userCubit.nameController,
                       shouldValidate: true),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
                   child: CustomValidateTextField(
                       label: "Senha",
-                      controller: passwordController,
+                      controller: userCubit.passwordController,
                       shouldValidate: true,
                       obscure: true),
                 ),
@@ -60,16 +48,28 @@ class _CreateAccountPaneState extends State<CreateAccountPage> {
                   padding: const EdgeInsets.fromLTRB(15, 10, 25, 0),
                   child: CustomValidateTextField(
                       label: "Email",
-                      controller: emailController,
+                      controller: userCubit.mailController,
                       shouldValidate: true),
                 ),
-                phoneTextField,
+                userCubit.customPhoneTextField,
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CustomElevatedButton(label: "Voltar", onClick: _popPane),
+                      TextButton(
+                        child: const Text(
+                          'Voltar',
+                          style: TextStyle(fontSize: 20, color: Colors.green),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                       CustomElevatedButton(
-                          label: "Criar conta", onClick: _createAccount)
+                        label: 'Criar conta',
+                        onClick: () {
+                          _createAccount(context);
+                        },
+                      )
                     ])
               ]),
             ),
@@ -79,53 +79,13 @@ class _CreateAccountPaneState extends State<CreateAccountPage> {
     );
   }
 
-  _createAccount() async {
+  _createAccount(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    String name = nameController.text.trim();
-    String password = passwordController.text;
-    String email = emailController.text.trim();
-    String phone = phoneTextField.getUnmaskedText();
-
-    if (!_isEmailValid()) {
-      Toast.warningToast(context, "Email inválido");
-      return;
-    }
-
-    if (await UserService().emailExists(email)) {
-      Toast.warningToast(context, "Email já utilizado!");
-      return;
-    }
-
-    if (await UserService().phoneExists(phone)) {
-      Toast.warningToast(context, "Telefone já utilizado!");
-      return;
-    }
-
-    User user =
-    User(name: name, password: password, email: email, phone: phone);
-
-    int? userId = await UserService().addUser(user);
-
-    if (userId != null) {
-      _backToLogin();
-    }
-  }
-
-  _popPane() {
-    Navigator.of(context).pop();
-  }
-
-  _isEmailValid() {
-    return RegExp(
-        r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*++/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-        .hasMatch(emailController.text);
-  }
-
-  _backToLogin() async {
-    Toast.confirmToast(context, "Usuário criado!");
-    _popPane();
+    await userCubit.addUser().then((value) => {
+      if (value == true) {Navigator.of(context).pop()}
+    });
   }
 }

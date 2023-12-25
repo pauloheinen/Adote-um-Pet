@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomLoadingBox extends StatelessWidget {
-  const CustomLoadingBox();
+  const CustomLoadingBox({super.key});
 
   @override
   Widget build(BuildContext context) {

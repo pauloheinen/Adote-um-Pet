@@ -1,7 +1,6 @@
+import 'package:adote_um_pet/android/components/border/outline_input_border/outline_border.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import '../border/outline_input_border/outline_border.dart';
 
 class CustomPhoneTextField extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
@@ -9,11 +8,17 @@ class CustomPhoneTextField extends StatelessWidget {
       mask: "(##) # ####-####",
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
-  bool readOnly;
 
-  CustomPhoneTextField({super.key,
+  final bool readOnly;
+
+  CustomPhoneTextField({
+    Key? key,
     this.readOnly = false,
-  });
+  }) : super(key: key);
+
+  bool isPhoneNumberValid() {
+    return phoneMask.isFill();
+  }
 
   String getUnmaskedText() {
     return phoneMask.getUnmaskedText();
@@ -28,6 +33,8 @@ class CustomPhoneTextField extends StatelessWidget {
         validator: (value) {
           if (value == null || value.isEmpty || controller.text.isEmpty) {
             return 'O campo deve ser preenchido!';
+          } else if (!isPhoneNumberValid()) {
+            return 'Número de telefone inválido';
           }
           return null;
         },
@@ -53,4 +60,3 @@ class CustomPhoneTextField extends StatelessWidget {
     );
   }
 }
-

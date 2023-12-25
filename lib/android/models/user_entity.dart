@@ -1,10 +1,11 @@
 class User {
   final int? id;
-  final String? name;
-  final String? password;
-  final String? email;
-  final String? phone;
+  final String name;
+  final String password;
+  final String email;
+  final String phone;
   final int? imageId;
+  // TODO future sugestion: create a adopt counter
 
   const User({
     this.id,

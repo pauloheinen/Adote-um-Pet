@@ -3,8 +3,7 @@ import 'package:bcrypt/bcrypt.dart';
 class Password {
   static String encrypt(String password) {
     String hashed = BCrypt.hashpw(password, BCrypt.gensalt(logRounds: 12));
-    hashed = _addSalt(hashed);
-    return hashed;
+    return _addSalt(hashed);
   }
 
   static String decrypt(String password) {
@@ -14,7 +13,7 @@ class Password {
       return password;
     }
 
-    throw Exception("Um erro ocorreu ao decriptar senha $password");
+    throw Exception("Um erro ocorreu ao decriptar senha");
   }
 
   static bool checkPassword(String password, String hashed) {
