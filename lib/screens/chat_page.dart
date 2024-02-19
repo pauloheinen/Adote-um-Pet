@@ -2,7 +2,7 @@ import 'package:adote_um_pet/components/Chat/chat_input_bar.dart';
 import 'package:adote_um_pet/models/message_entity.dart';
 import 'package:adote_um_pet/services/message_service.dart';
 import 'package:adote_um_pet/utilities/uuid_utils.dart';
-import 'package:adote_um_pet/websocket/websocket_manager.dart';
+import 'package:adote_um_pet/managers/websocket/websocket_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

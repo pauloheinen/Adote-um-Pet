@@ -44,7 +44,7 @@ class AppTheme {
           ),
           labelSmall: TextStyle(
             fontSize: 16,
-            color: Color.fromARGB(255, 60, 253, 53),
+            color: Color.fromARGB(229, 20, 171, 93),
           )),
     );
   }

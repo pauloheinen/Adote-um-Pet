@@ -25,13 +25,13 @@ class CustomElevatedButton extends StatelessWidget {
         width: buttonSize,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 60, 253, 53),
+              backgroundColor: const Color.fromARGB(229, 20, 171, 93),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8))),
             ),
             child: Text(
               label,
-              style: Theme.of(context).textTheme.displaySmall,
+              style: const TextStyle(color: Colors.white),
             ),
             onPressed: () => click()),
       ),
