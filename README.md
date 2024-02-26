@@ -2,15 +2,18 @@
 
 Adote um Pet app.
 
-## Getting Started
+Aplicativo feito com a ideia unicamente e exclusivamente de aprender all-by-myself flutter.
+Foi primeiramente criado através de stateless e statefull, após, sofreu diversas refatorações gerais para cada vez melhorar mais e aplicar novos conceitos.
+Hoje o aplicativo está funcionando e possui deploy e build no https://codemagic.io/ porém não estarei dando mais continuidade a ele, visto que levou muitas horas e acho que tive meu desenvolvimento pessoal atingido.
+Aplicado conceitos de providers, cubit, estilização, deploy e mensageria.
 
-This project is a starting point for a Flutter application.
+Sim, ainda há possíveis melhorias, mas não pretendo fazer isso neste momento.
 
-A few resources to get you started if this is your first Flutter project:
+#Deploy:
+https://codemagic.io/
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+#Database online
+https://aiven.io/
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#Chat peer2peer
+https://chat-websocket-adoteumpet-app.glitch.me/
